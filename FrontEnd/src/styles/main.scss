@@ -1,0 +1,9 @@
+@import 'variables';
+@import 'base';
+
+body {
+  background-color: $bg-site;
+  font-family: $font-main;
+  color: $text-title;
+  margin: 0;
+}
