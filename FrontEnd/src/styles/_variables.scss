@@ -1,15 +1,25 @@
-// Couleurs principales
-$primary-color: #4F46E5;
-$primary-hover: #1338CA;
-$danger-color: #EF4444;
+:root {
+  /* Couleurs */
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-bg: #F9FAFB;
+  --color-button-bg: #EEF2FF;
+  --color-danger: #EF4444;
+  --color-text: #111827;
+  --color-text-secondary: #4B5563;
 
-// Couleurs de fond
-$bg-site: #F9FAFB;
-$bg-button: #EEF2FF;
+  /* Typographie */
+  --font-family: 'Inter', sans-serif;
 
-// Couleurs de texte
-$text-title: #111827;
-$text-secondary: #4B5563;
+  --font-size-h1: 24px;
+  --font-weight-h1: 700;
 
-// Polices (à adapter selon tes besoins)
-$font-main: 'Inter', sans-serif;
+  --font-size-h2: 18px;
+  --font-weight-h2: 600;
+
+  --font-size-body: 14px;
+  --font-weight-body: 400;
+
+  --font-size-label: 14px;
+  --font-weight-label: 500;
+}

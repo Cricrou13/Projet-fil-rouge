@@ -1,17 +1,27 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PublicLayout from "./layouts/PublicLayout";
+import ProLayout from "./layouts/ProLayout";
 
-function App() {
-  const [count, setCount] = useState(0)
+import Home from "./pages/public/Home";
+import SearchPro from "./pages/public/SearchPro";
+import Booking from "./pages/public/Booking";
 
+import Dashboard from "./pages/pro/DashBoard";
+
+export default function App() {
   return (
-    <div className="App">
-      <h1>Plateforme de Réservation</h1>
-      <p>Bienvenue sur mon projet fil rouge.</p>
-      <button onClick={() => setCount(count + 1)}>
-        Compteur : {count}
-      </button>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/recherche" element={<SearchPro />} />
+          <Route path="/reservation" element={<Booking />} />
+        </Route>
 
-export default App
+        <Route element={<ProLayout />}>
+          <Route path="/pro/tableau-de-bord" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}

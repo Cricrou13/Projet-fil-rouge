@@ -1,9 +1,11 @@
 @import 'variables';
+@import 'mixins';
 @import 'base';
+@import 'global';
 
 body {
-  background-color: $bg-site;
-  font-family: $font-main;
-  color: $text-title;
+  background-color: var(--color-bg);
+  font-family: var(--font-family);
+  color: var(--color-text);
   margin: 0;
 }

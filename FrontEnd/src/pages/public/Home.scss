@@ -1,0 +1,56 @@
+.home {
+  &-hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: var(--color-button-bg);
+
+    h1 {
+      max-width: 700px;
+      margin: 0 auto 1rem;
+    }
+
+    p {
+      color: var(--color-text-secondary);
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &-section {
+    padding: 3rem 2rem;
+
+    h2 {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &-intro {
+    background-color: var(--color-bg);
+    text-align: center;
+
+    p {
+      max-width: 600px;
+      margin: 0 auto;
+      color: var(--color-text-secondary);
+    }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: var(--font-weight-label);
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
+}

@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid #E5E7EB;
+
+  &-logo img {
+    height: 40px;
+  }
+
+  &-nav {
+    display: flex;
+    gap: 1.5rem;
+
+    a {
+      font-size: var(--font-size-label);
+      font-weight: var(--font-weight-label);
+      text-decoration: none;
+      color: var(--color-text);
+
+      &:hover,
+      &.active {
+        color: var(--color-primary);
+      }
+    }
+  }
+}
