@@ -1,0 +1,36 @@
+.datetime-picker {
+  label {
+    display: block;
+    margin-bottom: 1.5rem;
+
+    input {
+      display: block;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+    }
+  }
+
+  .creneaux {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+
+    button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+      background: white;
+      cursor: pointer;
+
+      &:hover { border-color: var(--color-primary); }
+
+      &.selected {
+        background: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+      }
+    }
+  }
+}

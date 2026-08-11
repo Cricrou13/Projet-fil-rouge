@@ -1,3 +1,5 @@
+import "./PrestationCard.scss";
+
 export default function PrestationCard({ prestation }) {
   return (
     <div className="prestation-card">

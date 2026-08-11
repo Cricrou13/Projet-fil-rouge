@@ -1,3 +1,5 @@
+import "./ProCard.scss";
+
 export default function ProCard({ pro }) {
   return (
     <div className="pro-card">

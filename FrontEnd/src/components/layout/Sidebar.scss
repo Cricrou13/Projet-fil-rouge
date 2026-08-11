@@ -1,0 +1,56 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  min-height: 100vh;
+  padding: 1.5rem 1rem;
+  background-color: white;
+  border-right: 1px solid #E5E7EB;
+
+  &-logo img {
+    height: 32px;
+    margin-bottom: 2rem;
+  }
+
+  &-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-label);
+      font-weight: var(--font-weight-label);
+
+      &:hover {
+        background-color: var(--color-button-bg);
+        color: var(--color-primary);
+      }
+
+      &.active {
+        background-color: var(--color-button-bg);
+        color: var(--color-primary);
+        font-weight: 600;
+      }
+    }
+  }
+
+  &-logout {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border: none;
+    background: none;
+    color: var(--color-danger);
+    cursor: pointer;
+    font-size: var(--font-size-label);
+  }
+}

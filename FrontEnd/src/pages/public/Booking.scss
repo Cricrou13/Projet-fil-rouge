@@ -1,0 +1,18 @@
+.booking {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  h1 { margin-bottom: 1.5rem; }
+
+  &-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

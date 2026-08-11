@@ -1,0 +1,61 @@
+.dashboard {
+  &-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  &-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 1.25rem;
+
+  &-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  &-label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-body);
+  }
+}
+
+.appointment-list, .notes-panel {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 1.25rem;
+
+  h3 {
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #F3F4F6;
+  }
+}
+
+.appointment-statut {
+  &.ok { color: #22C55E; }
+  &.non { color: var(--color-danger); }
+}
