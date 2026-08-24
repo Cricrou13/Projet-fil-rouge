@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
 
       <p className="footer-copyright">
-        &copy; {new Date().getFullYear()} Infintime. Tous droits réservés.
+        &copy; {new Date().getFullYear()} InfinTime. Tous droits réservés.
       </p>
     </footer>
   );

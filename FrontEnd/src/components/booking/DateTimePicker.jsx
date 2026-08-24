@@ -13,6 +13,7 @@ export default function DateTimePicker({ date, setDate, heure, setHeure }) {
           <button
             key={c}
             className={heure === c ? "selected" : ""}
+            aria-pressed={heure === c}
             onClick={() => setHeure(c)}
           >
             {c}

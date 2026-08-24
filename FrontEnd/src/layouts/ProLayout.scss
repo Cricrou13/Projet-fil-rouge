@@ -1,3 +1,5 @@
+@import "../styles/mixins";
+
 .pro-body {
   display: flex;
 }
@@ -11,5 +13,11 @@
   main {
     flex: 1;
     padding: 2rem;
+  }
+}
+
+@include mobile {
+  .pro-content main {
+    padding: 4.5rem 1rem 1rem; 
   }
 }

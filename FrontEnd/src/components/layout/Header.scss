@@ -1,3 +1,5 @@
+@import "../../styles/mixins";
+
 .header {
   display: flex;
   align-items: center;
@@ -5,9 +7,18 @@
   padding: 1rem 2rem;
   background-color: var(--color-bg);
   border-bottom: 1px solid #E5E7EB;
+  position: relative;
 
   &-logo img {
     height: 40px;
+  }
+
+  &-burger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text);
   }
 
   &-nav {
@@ -15,14 +26,36 @@
     gap: 1.5rem;
 
     a {
-      font-size: var(--font-size-label);
-      font-weight: var(--font-weight-label);
       text-decoration: none;
       color: var(--color-text);
+      font-weight: 500;
 
       &:hover,
       &.active {
         color: var(--color-primary);
+      }
+    }
+  }
+
+  @include mobile {
+    &-burger {
+      display: block;
+    }
+
+    &-nav {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--color-bg);
+      padding: 1rem 2rem;
+      gap: 1rem;
+      border-bottom: 1px solid #E5E7EB;
+
+      &.open {
+        display: flex;
       }
     }
   }

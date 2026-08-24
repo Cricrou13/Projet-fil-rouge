@@ -26,7 +26,7 @@ export default function Home() {
       <section className="home-section home-intro">
         <h2>Présentation de l'outil et de la prise de RDV</h2>
         <p>
-          Infintime permet aux entrepreneurs de gérer leur agenda, leurs prestations
+          InfinTime permet aux entrepreneurs de gérer leur agenda, leurs prestations
           et leur clientèle, tout en offrant à leurs clients un espace simple pour
           prendre rendez-vous ou demander un devis.
         </p>

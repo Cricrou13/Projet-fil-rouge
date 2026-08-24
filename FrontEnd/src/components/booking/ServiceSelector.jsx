@@ -1,16 +1,24 @@
+import "./ServiceSelector.scss";
+
 export default function ServiceSelector({ services, selected, onSelect }) {
   return (
-    <div className="service-selector">
+    <div className="service-selector" role="radiogroup" aria-label="Choisir une prestation">
       {services.map((service) => (
-        <div
+        <label
           key={service.id}
           className={`service-option ${selected?.id === service.id ? "selected" : ""}`}
-          onClick={() => onSelect(service)}
         >
-          <span>{service.nom}</span>
-          <span>{service.duree}</span>
-          <span>{service.prix}€</span>
-        </div>
+          <input
+            type="radio"
+            name="service"
+            checked={selected?.id === service.id}
+            onChange={() => onSelect(service)}
+          />
+          <span className="service-option-radio" aria-hidden="true"></span>
+          <span className="service-option-name">{service.nom}</span>
+          <span className="service-option-duree">{service.duree}</span>
+          <span className="service-option-prix">{service.prix}€</span>
+        </label>
       ))}
     </div>
   );
