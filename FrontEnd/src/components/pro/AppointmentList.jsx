@@ -1,3 +1,5 @@
+import "./AppointmentList.scss";
+
 export default function AppointmentList({ rdvs }) {
   return (
     <div className="appointment-list">

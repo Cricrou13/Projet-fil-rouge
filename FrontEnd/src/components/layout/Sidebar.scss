@@ -1,4 +1,4 @@
-@import "../../styles/mixins";
+@use "../../styles/mixins" as *;
 
 .sidebar-burger {
   display: none;
@@ -10,79 +10,218 @@
   top: 1rem;
   left: 1rem;
   z-index: 20;
-}
-
+};
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 220px;
+  width: 240px;
   min-height: 100vh;
-  padding: 1.5rem 1rem;
-  background-color: white;
+  padding: 1.25rem 0.85rem;
+  background-color: #FFFFFF;
   border-right: 1px solid #E5E7EB;
-
-  &-logo img {
-    height: 32px;
+  transition: width 0.25s ease;
+  position: relative;
+  /* En-tête : Logo + Bouton Réduire */
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #F3F4F6;
   }
-
+  &-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .logo-brand {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--color-text);
+      line-height: 1.1;
+      .logo-accent {
+        color: var(--color-primary);
+      }
+    }
+    .logo-pro {
+      font-size: 0.625rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+  &-collapse-btn {
+    background: transparent;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 0.35rem;
+    cursor: pointer;
+    color: #6B7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    &:hover {
+      background-color: #EEF2FF;
+      color: var(--color-primary);
+      border-color: #C7D2FE;
+    }
+  }
+  /* Navigation */
   &-nav {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex: 1;
-
     a {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.6rem 0.75rem;
-      border-radius: 6px;
+      padding: 0.65rem 0.85rem;
+      border-radius: 10px;
       text-decoration: none;
-      color: var(--color-text-secondary);
-      font-size: var(--font-size-label);
-      font-weight: var(--font-weight-label);
-
+      color: #4B5563;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      transition: all 0.15s ease;
+      svg {
+        flex-shrink: 0;
+      }
       &:hover {
-        background-color: var(--color-button-bg);
+        background-color: #F3F4F6;
         color: var(--color-primary);
       }
-
       &.active {
-        background-color: var(--color-button-bg);
+        background-color: #EEF2FF;
         color: var(--color-primary);
-        font-weight: 600;
+        font-weight: 700;
       }
     }
   }
-
+  /* Déconnexion en bas */
+  &-footer {
+    padding-top: 1rem;
+    border-top: 1px solid #F3F4F6;
+  }
   &-logout {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.6rem 0.75rem;
+    padding: 0.65rem 0.85rem;
     border: none;
     background: none;
     color: var(--color-danger);
     cursor: pointer;
-    font-size: var(--font-size-label);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-radius: 10px;
+    width: 100%;
+    transition: background-color 0.15s ease;
+    svg {
+      flex-shrink: 0;
+    }
+    &:hover {
+      background-color: var(--color-accent-bg);
+    }
   }
 
+   /* Pastilles de couleur pour les icônes */
+  .icon-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    &--indigo {
+      background-color: #EEF2FF;
+      color: #4F46E5;
+    }
+    &--emerald {
+      background-color: #ECFDF5;
+      color: #10B981;
+    }
+    &--blue {
+      background-color: #E0F2FE;
+      color: #0284C7;
+    }
+    &--amber {
+      background-color: #FEF3C7;
+      color: #D97706;
+    }
+    &--slate {
+      background-color: #F1F5F9;
+      color: #64748B;
+    }
+    &--red {
+      background-color: #FEF2F2;
+      color: #EF4444;
+    }
+  }
+  /* Petit effet de zoom sur l'icône au survol */
+  a:hover .icon-badge,
+  .sidebar-logout:hover .icon-badge {
+    transform: scale(1.08);
+  }
+  /* ======================================= */
+  /* MODE REPLIÉ / COMPACT (COLLAPSED)       */
+  /* ======================================= */
+  &.collapsed {
+    width: 76px;
+    padding: 1.25rem 0.5rem;
+    .sidebar-header {
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    .sidebar-nav a {
+      justify-content: center;
+      padding: 0.75rem 0;
+    }
+    .sidebar-logout {
+      justify-content: center;
+      padding: 0.75rem 0;
+    }
+  }
+  /* ======================================= */
+  /* RESPONSIVE MOBILE                       */
+  /* ======================================= */
   @include mobile {
     position: fixed;
     top: 0;
     left: -260px;
-    width: 220px;
+    width: 240px;
     z-index: 15;
     transition: left 0.25s ease;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
     &.open {
       left: 0;
     }
-
-    &-logo {
-      margin-top: 2.5rem;
+    &-collapse-btn {
+      display: none; // Pas besoin de replier sur mobile, le burger s'en charge
     }
   }
 }

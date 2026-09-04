@@ -18,7 +18,7 @@ export default function App() {
           <Route path="/reservation" element={<Booking />} />
         </Route>
 
-        <Route element={<ProLayout />}>
+        <Route element={<ProLayout metier="électricité"/>}>
           <Route path="/pro/tableau-de-bord" element={<Dashboard />} />
         </Route>
       </Routes>

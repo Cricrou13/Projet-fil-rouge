@@ -1,28 +1,7 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--font-family);
-  font-size: var(--font-size-body);
-  font-weight: (--font-weight-body);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-}
-
-h1 {
-  font-size: var(--font-size-h1);
-  font-weight: var(--font-weight-h1);
-}
-
-h2 {
-  font-size: var(--font-size-h2);
-  font-weight: var(--font-weight-h2);
-}
-
-nav a, label, .label {
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-label);
+@each $slug, $color in $metiers {
+  .badge-category--#{$slug} {
+    background-color: lighten($color, 40%);
+    color: darken($color, 10%);
+    border: 1px solid rgba($color, 0.2);
+  }
 }

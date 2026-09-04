@@ -3,6 +3,10 @@
 @import 'base';
 @import 'global';
 
+@function couleur-metier($metier) {
+  @return map-get($metiers, $metier);
+}
+
 body {
   background-color: var(--color-bg);
   font-family: var(--font-family);

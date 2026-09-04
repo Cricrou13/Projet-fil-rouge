@@ -1,0 +1,32 @@
+.stat-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px 24px;
+
+  &__title {
+    font-size: 13px;
+    color: #4B5563;
+    margin-bottom: 8px;
+  }
+
+  &__value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+  &_icon {
+    color: var(--color-accent);
+    background-color: var(--color-accent-bg);
+  }
+
+  &__subtitle {
+    font-size: 13px;
+    margin-top: 6px;
+
+    &--positive { color: #16A34A; }
+    &--negative { color: #EF4444; }
+    &--neutral  { color: #4B5563; }
+    &--info     { color: #4F46E5; }
+  }
+}

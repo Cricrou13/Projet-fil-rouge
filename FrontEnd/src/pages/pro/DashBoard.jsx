@@ -8,9 +8,10 @@ export default function DashBoard() {
   return (
     <div className="dashboard">
       <div className="dashboard-stats">
-        <StatCard label="RDV à venir" value={mockStats.rdvAVenir} />
-        <StatCard label="Messages" value={mockStats.messages} />
-        <StatCard label="Chiffre d'affaires" value={mockStats.chiffreAffaires} />
+        <StatCard title="Clients" value="5 clients" subtitle="Journée complète" subtitleType="positive" />
+        <StatCard title="Total" value="28" subtitle="+4 hier" subtitleType="info" />
+        <StatCard title="CA estimé (mois)" value="3 450 €" subtitle="+14% vs N-1" subtitleType="positive" />
+        <StatCard title="Note clients" value="4.9 / 5" subtitle="★ 42 avis" subtitleType="neutral" />  
       </div>
 
       <div className="dashboard-main">
