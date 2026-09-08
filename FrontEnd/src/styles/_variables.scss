@@ -3,14 +3,16 @@
   /* Neutres */
   --color-bg: #FAFAFA;
   --color-text: #171717;
-  --color-text-secondary: #525252;
+  --color-text-secondary: #475569;
   --color-border: #E5E5E5;
+  --color-fond: #757575;
 
   /* Actions & États */
-  --color-primary: #4F46E5;
-  --color-primary-hover: #4338CA;
+  --color-primary: #4338CA;
+  --color-secondary: #6666FF;
+  --color-primary-hover: #3730A3;
   --color-button-bg: #EEF2FF;
-  --color-danger: #EF4444;
+  --color-danger:  #EF4444;
 
   /* Métiers */
   --color-metier-coiffure: #DB2777;
@@ -28,9 +30,8 @@
   --font-weight-body: 400;
   --font-size-label: 14px;
   --font-weight-label: 500;
-}
 
-/* Map Sass pour générer des classes dynamiques */
+  /* Map Sass pour générer des classes dynamiques */
 $metiers: (
   "coiffure": #DB2777,      // Rose / Pink
   "electricite": #EA580C,   // Orange
@@ -42,3 +43,4 @@ $metiers: (
   "menuiserie": #D97706,    // Ambre / Dark Orange
   "default": #4F46E5        // Indigo
 ) !default;
+}

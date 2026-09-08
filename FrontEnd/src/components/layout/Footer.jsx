@@ -38,7 +38,7 @@ export default function Footer() {
 
           {/* Colonne 2 : Pour les clients */}
           <div className="footer__col">
-            <h4>Pour les clients</h4>
+            <h1>Pour les clients</h1>
             <ul>
               <li><Link to="/recherche">Rechercher un entrepreneur</Link></li>
               <li><Link to="/recherche">Prendre rendez-vous en ligne</Link></li>
@@ -49,7 +49,7 @@ export default function Footer() {
 
           {/* Colonne 3 : Pour les professionnels */}
           <div className="footer__col">
-            <h4>Pour les professionnels</h4>
+            <h2>Pour les professionnels</h2>
             <ul>
               <li><Link to="/pro/tableau-de-bord" className="highlight-link">Accéder à l'Espace Pro</Link></li>
               <li><Link to="/pro/tableau-de-bord">Gestion de l'agenda en ligne</Link></li>
@@ -60,7 +60,7 @@ export default function Footer() {
 
           {/* Colonne 4 : Notre entreprise & Légal */}
           <div className="footer__col">
-            <h4>Entreprise & Légal</h4>
+            <h2>Entreprise & Légal</h2>
             <ul>
               <li><Link to="/">À propos d'InfinTime</Link></li>
               <li><Link to="/mentions-legales">Mentions légales</Link></li>

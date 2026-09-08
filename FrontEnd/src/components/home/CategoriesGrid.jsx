@@ -15,7 +15,7 @@ import { mockCategories } from "../../data/mockCategories";
 import { getMetierConfig } from "../../data/metiers";
 import "./CategoriesGrid.scss";
 
-// Mapping basique si cat.icon n'est pas encore un composant Lucide dans mockCategories
+// Mapping basique
 const ICON_MAP = {
   coiffure: Scissors,
   plomberie: Wrench,

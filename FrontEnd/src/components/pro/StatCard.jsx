@@ -1,17 +1,20 @@
-import './StatCard.scss';
+export default function StatCard({ title, value, subtitle, type }) {
+  // Petite logique pour l'icône de début de sous-titre
+  const renderIcon = () => {
+    if (type === "positive" && title === "Clients") return "🟢 ";
+    if (type === "positive") return "▲ ";
+    if (type === "warning") return "★ ";
+    return "";
+  };
 
-function StatCard({ title, value, subtitle, subtitleType = 'neutral' }) {
   return (
     <div className="stat-card">
-      <p className="stat-card__title">{title}</p>
-      <p className="stat-card__value">{value}</p>
-      {subtitle && (
-        <p className={`stat-card__subtitle stat-card__subtitle--${subtitleType}`}>
-          {subtitle}
-        </p>
-      )}
+      <span className="stat-card__title">{title}</span>
+      <span className="stat-card__value">{value}</span>
+      <div className={`stat-card__subtitle stat-card__subtitle--${type}`}>
+        {renderIcon()}
+        {subtitle}
+      </div>
     </div>
   );
 }
-
-export default StatCard;

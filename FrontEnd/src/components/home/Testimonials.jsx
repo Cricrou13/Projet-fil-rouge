@@ -30,7 +30,7 @@ export default function Testimonials() {
       <div className="testimonials-section__container">
         <div className="testimonials-section__header">
           <span className="section-tag">Témoignages</span>
-          <h2>Ils utilisent InfinTime au quotidien</h2>
+          <h1>Ils utilisent InfinTime au quotidien</h1>
           <p>Découvrez les retours de nos clients particuliers et de nos entrepreneurs partenaires.</p>
         </div>
 
@@ -42,7 +42,7 @@ export default function Testimonials() {
               <div className="testimonial-card__author">
                 <div className="author-avatar">{rev.initials}</div>
                 <div>
-                  <h4 className="author-name">{rev.author}</h4>
+                  <h2 className="author-name">{rev.author}</h2>
                   <span className="author-role">{rev.role}</span>
                 </div>
               </div>
