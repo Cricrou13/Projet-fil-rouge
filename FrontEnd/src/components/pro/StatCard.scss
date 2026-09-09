@@ -26,5 +26,31 @@
       font-weight: 700;
       color: #1E293B;
     }
-  }
-}
+
+    &__subtitle {
+      display: block;
+      font-size: 0.9rem;
+      color: #64748b; 
+      margin-top: 0.5rem;
+
+      &--info {
+        color: #6366f1 !important; 
+        font-weight: 600;
+      }
+
+      &--positive {
+        color: #16a34a !important;
+        font-weight: 600;
+      }
+      
+      &--warning {
+        color: #A16207 !important;
+        font-weight: 600;
+      }
+
+      &--neutral {
+        color: #A16207; 
+      }
+    } // Fin de __subtitle
+  } // Fin de .stat-card
+} // Fin de .stats-grid

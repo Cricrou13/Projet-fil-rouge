@@ -1,43 +1,169 @@
 .dashboard {
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem;
   background-color: #f8fafc;
+  min-height: 100vh;
 
-  // C'est ici que la magie opère
+  // 1. LA GRILLE DE STATS
   .stats-grid {
-    display: flex !important;   // On force le mode Flex
-    flex-wrap: wrap !important; // Autorise le passage à la ligne (indispensable pour le 2x2)
-    gap: 20px;                  // L'écart entre les cartes
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
     width: 100%;
 
-    // La carte
     .stat-card {
-      // Pour avoir 2 cartes par ligne :
-      // On prend 50% de la largeur totale et on retire la moitié du gap (10px)
-      flex: 0 0 calc(50% - 10px) !important; 
-      
+      flex: 0 0 calc(50% - 0.625rem);
       background: white;
-      padding: 24px;
+      padding: 1.5rem;
       border-radius: 12px;
-      border: 1px solid #E5E7EB;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      display: flex;         // Ajouté pour aligner le contenu
+      flex-direction: column; // Ajouté
 
-      // Pour que le contenu interne soit joli
-      display: flex;
-      flex-direction: column;
-
+      // --- AJOUTS ICI POUR LES COULEURS ---
       &__title {
-        font-size: 14px;
-        color: #64748B;
-        text-transform: uppercase;
+        font-size: 0.85rem;
         font-weight: 700;
-        margin-bottom: 8px;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
       }
 
       &__value {
-        font-size: 28px;
+        font-size: 1.75rem;
         font-weight: 800;
-        color: #1E293B;
+        color: #1e293b;
+      }
+
+      &__subtitle {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #64748b; 
+
+        &--info {
+          color: #6366f1 !important;
+        }
+
+        &--positive {
+          color: #10b981 !important;
+        }
+
+        &--warning {
+          color: #a16207 !important;
+        }
+
+        &--neutral {
+          color: #a16207;
+        }
+      }
+
+      @media (max-width: 768px) {
+        flex: 0 0 100%;
+      }
+    }
+  }
+
+  // 2. STYLE GÉNÉRIQUE DES SECTIONS (Planning & Devis)
+  .dashboard-section {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+
+      h3 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1e293b;
+      }
+
+      .count-label {
+        font-size: 0.85rem;
+        color: #64748b;
+      }
+    }
+  }
+
+  // 3. LISTE DES RENDEZ-VOUS
+  .appointment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .appointment-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border: 1px solid #f1f5f9;
+      border-radius: 10px;
+      transition: background-color 0.2s;
+
+      &.highlight {
+        background-color: #f5f8ff;
+        border-color: #dbeafe;
+      }
+
+      &__time {
+        width: 70px;
+        font-weight: 700;
+        color: var(--color-primary);
+        font-size: 0.95rem;
+      }
+
+      &__info {
+        flex: 1;
+        h4 { font-size: 0.95rem; color: #1e293b; margin-bottom: 2px; }
+        p { font-size: 0.85rem; color: #64748b; }
+        .badge-new { color: var(--color-primary); font-weight: 700; margin-left: 5px; }
+      }
+
+      &__price { font-weight: 800; color: #1e293b; font-size: 1rem; }
+    }
+  }
+
+  // 4. SECTION DEVIS
+  .section-quotes {
+    .quote-card {
+      background-color: #fffbeb;
+      border: 1px solid #fef3c7;
+      padding: 1.25rem;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &__content {
+        h4 { font-size: 0.95rem; color: #92400e; margin-bottom: 4px; }
+        p { font-size: 0.85rem; color: #b45309; }
+      }
+
+      .btn-orange {
+        background-color: #d97706;
+        color: white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        &:hover { background-color: #b45309; }
       }
     }
   }
 }
+
+.icon-blue { color: var(--color-primary); }
+.icon-orange { color: #f59e0b; }

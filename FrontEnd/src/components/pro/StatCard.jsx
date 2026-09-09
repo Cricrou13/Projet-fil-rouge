@@ -1,5 +1,5 @@
 export default function StatCard({ title, value, subtitle, type }) {
-  // Petite logique pour l'icône de début de sous-titre
+
   const renderIcon = () => {
     if (type === "positive" && title === "Clients") return "🟢 ";
     if (type === "positive") return "▲ ";
