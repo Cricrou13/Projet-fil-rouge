@@ -1,26 +1,48 @@
-import { Star, MapPin, Calendar, CheckCircle2 } from "lucide-react";
+import { Star, MapPin, Calendar, CheckCircle2, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
+import { getMetierConfig } from "../../data/metiers";
 import "./ProCard.scss";
-
 export default function ProCard({ pro }) {
   const initials = pro.initials || (pro.name ? pro.name.split(" ").map((n) => n[0]).join("") : "PRO");
-
+  
+  // Récupération de la couleur du métier (Rose, Cyan, Ocre...)
+  const config = getMetierConfig(pro.metier);
   return (
-    <article className="pro-card">
+    <article 
+      className="pro-card"
+      style={{ "--card-hover-color": config.color }}
+    >
       <div className="pro-card__header">
         <div className="pro-card__identity">
-          <div className="pro-card__avatar">{initials}</div>
+          
+          {/* Avatar avec la couleur du métier */}
+          <div 
+            className="pro-card__avatar"
+            style={{
+              backgroundColor: config.bgLight,
+              color: config.color,
+              borderColor: `${config.color}30`
+            }}
+          >
+            {initials}
+          </div>
           <div className="pro-card__info">
             <div className="pro-card__name-wrap">
               <h3 className="pro-card__name">{pro.name}</h3>
               <CheckCircle2 size={15} className="verified-badge" />
             </div>
-            <span className="pro-card__badge">
+            {/* Badge métier coloré */}
+            <span 
+              className="pro-card__badge"
+              style={{
+                backgroundColor: config.bgLight,
+                color: config.color
+              }}
+            >
               {pro.badge && <span className="badge-emoji">{pro.badge}</span>} {pro.metier}
             </span>
           </div>
         </div>
-
         {pro.rating && (
           <div className="pro-card__rating">
             <Star size={13} fill="#F59E0B" color="#F59E0B" />
@@ -29,7 +51,6 @@ export default function ProCard({ pro }) {
           </div>
         )}
       </div>
-
       <div className="pro-card__meta">
         <span className="pro-card__location">
           <MapPin size={13} />
@@ -41,7 +62,6 @@ export default function ProCard({ pro }) {
           </span>
         )}
       </div>
-
       {pro.prestations && pro.prestations.length > 0 && (
         <ul className="pro-card__prestations">
           {pro.prestations.map((p, idx) => (
@@ -52,7 +72,6 @@ export default function ProCard({ pro }) {
           ))}
         </ul>
       )}
-
       {pro.nextSlot && (
         <div className="pro-card__slot">
           <span className="slot-dot"></span>
@@ -61,12 +80,19 @@ export default function ProCard({ pro }) {
           </span>
         </div>
       )}
-
-      <div className="pro-card__actions">
-        <Link to={`/reservation?pro=${pro.id}`} className="btn-book">
-          <Calendar size={14} />
-          <span>Prendre RDV</span>
-        </Link>
+     
+       <div className="pro-card__actions">
+        {pro.startingPrice === "Sur devis" ? (
+          <Link to="/devis" className="btn-book">
+            <FileText size={14} />
+            <span>Demander un devis</span>
+          </Link>
+        ) : (
+          <Link to={`/reservation?pro=${pro.id}`} className="btn-book">
+            <Calendar size={14} />
+            <span>Prendre RDV</span>
+          </Link>
+        )}
         <Link to="/recherche" className="btn-profile">
           Profil
         </Link>

@@ -9,6 +9,8 @@ import Booking from "./pages/public/Booking";
 import Dashboard from "./pages/pro/DashBoard";
 import Planning from "./pages/pro/Agenda"; 
 
+import ContactPro from "./pages/public/ContactPro";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -18,7 +20,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/recherche" element={<SearchPro />} />
           <Route path="/reservation" element={<Booking />} />
-          <Route path="/devis" element={<div>Page Devis en construction</div>} />
+         <Route path="/devis" element={<ContactPro />} />
           <Route path="/mes-rendez-vous" element={<div>Page Mes RDV</div>} />
           <Route path="/connexion" element={<div>Page Connexion</div>} />
         </Route>
