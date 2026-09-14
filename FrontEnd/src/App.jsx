@@ -10,6 +10,7 @@ import Dashboard from "./pages/pro/DashBoard";
 import Planning from "./pages/pro/Agenda"; 
 
 import ContactPro from "./pages/public/ContactPro";
+import Login from "./pages/public/Login";
 
 export default function App() {
   return (
@@ -22,7 +23,7 @@ export default function App() {
           <Route path="/reservation" element={<Booking />} />
          <Route path="/devis" element={<ContactPro />} />
           <Route path="/mes-rendez-vous" element={<div>Page Mes RDV</div>} />
-          <Route path="/connexion" element={<div>Page Connexion</div>} />
+          <Route path="/connexion" element={<Login/>} />
         </Route>
 
         {/* Partie Pro */}

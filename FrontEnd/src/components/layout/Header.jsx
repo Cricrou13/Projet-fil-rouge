@@ -28,11 +28,11 @@ export default function Header() {
             <span>Espace Pro (Artisans)</span>
           </Link>
           
-          <div className="user-link">
+          <Link to="/connexion" className="user-link">
             <User size={20} />
             <span>Mon compte</span>
-          </div>
-
+          </Link>
+          
           <Link to="/reservation" className="btn-primary">
             Prendre RDV
           </Link>
