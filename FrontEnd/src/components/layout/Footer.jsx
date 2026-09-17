@@ -80,10 +80,15 @@ export default function Footer() {
             <span>·</span>
             <Link to="/politique-donnees">Confidentialité</Link>
             <span>·</span>
-            <Link to="/mentions-legales">Cookies</Link>
-          </div>
+            <button 
+              type="button" 
+              className="footer-cookie-btn" 
+              onClick={() => window.dispatchEvent(new Event("open_cookie_banner"))}
+            >
+              Cookies
+            </button>
+      </div>
         </div>
-
       </div>
     </footer>
   );

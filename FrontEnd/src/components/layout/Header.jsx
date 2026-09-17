@@ -1,6 +1,6 @@
 import { Briefcase, User, Search } from "lucide-react";
-import { Link } from "react-router-dom";
-import "./Header.scss"; // On crée ce fichier juste après
+import { Link, NavLink } from "react-router-dom";
+import "./Header.scss"; 
 
 export default function Header() {
   return (
@@ -15,10 +15,10 @@ export default function Header() {
 
         {/* NAVIGATION CENTRALE */}
         <nav className="header__nav">
-          <Link to="/">Accueil</Link>
-          <Link to="/recherche">Rechercher un pro</Link>
-          <Link to="/devis">Demander un devis</Link>
-          <Link to="/rdv">Mes rendez-vous</Link>
+          <NavLink to="/"end>Accueil</NavLink>
+          <NavLink to="/recherche">Rechercher un pro</NavLink>
+          <NavLink to="/devis">Demander un devis</NavLink>
+          <NavLink to="/mes-rendez-vous">Mes rendez-vous</NavLink>
         </nav>
 
         {/* ACTIONS DROITE */}
@@ -32,7 +32,7 @@ export default function Header() {
             <User size={20} />
             <span>Mon compte</span>
           </Link>
-          
+
           <Link to="/reservation" className="btn-primary">
             Prendre RDV
           </Link>

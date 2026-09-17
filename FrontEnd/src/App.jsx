@@ -11,6 +11,10 @@ import Planning from "./pages/pro/Agenda";
 
 import ContactPro from "./pages/public/ContactPro";
 import Login from "./pages/public/Login";
+import MyAppointments from "./pages/public/MyAppointments";
+
+import PrivacyPolicy from "./pages/public/PrivacyPolicy";
+import LegalNotice from "./pages/public/LegalNotice";
 
 export default function App() {
   return (
@@ -22,8 +26,11 @@ export default function App() {
           <Route path="/recherche" element={<SearchPro />} />
           <Route path="/reservation" element={<Booking />} />
          <Route path="/devis" element={<ContactPro />} />
-          <Route path="/mes-rendez-vous" element={<div>Page Mes RDV</div>} />
+          <Route path="/mes-rendez-vous" element={<MyAppointments/>} />
           <Route path="/connexion" element={<Login/>} />
+          <Route path="/politique-donnees" element={<PrivacyPolicy/>} />
+          <Route path="/mentions-legales" element={<LegalNotice />} />
+
         </Route>
 
         {/* Partie Pro */}
