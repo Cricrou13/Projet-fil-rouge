@@ -1,12 +1,19 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import Topbar from "../components/layout/Topbar";
 import Sidebar from "../components/layout/Sidebar";
-import { getMetierConfig } from "../data/metiers"; // 1. Import de la source de vérité
+import { getMetierConfig } from "../data/metiers";
+import { useAuth } from "../context/AuthContext";
 import "./ProLayout.scss";
 
-export default function ProLayout({ metier = "default" }) {
-  // 2. Récupération de la configuration couleur
-  const config = getMetierConfig(metier);
+export default function ProLayout() {
+  const { proMetier, proNom } = useAuth();
+
+  // Si personne n'est connecté, on empêche l'accès à l'espace pro
+  if (!proMetier) {
+    return <Navigate to="/connexion" replace />;
+  }
+
+  const config = getMetierConfig(proMetier);
 
   return (
     <div
@@ -19,9 +26,9 @@ export default function ProLayout({ metier = "default" }) {
       <div className="pro-body">
         <Sidebar />
         <div className="pro-content">
-          <Topbar nom="Jean" />
+          <Topbar nom={proNom || "Pro"} />
           <main>
-            <Outlet />
+            <Outlet context={{ metier: proMetier }} />
           </main>
         </div>
       </div>

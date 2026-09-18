@@ -7,6 +7,8 @@ export const METIERS = {
   jardinage: { label: 'Jardinage', color: '#16A34A', bgLight: '#DCFCE7' },     // Vert nature
   nettoyage: { label: 'Nettoyage', color: '#0D9488', bgLight: '#CCFBF1' },     // Sarcelle / Teal
   menuiserie: { label: 'Menuiserie', color: '#B45309', bgLight: '#FEF3C7' },   // Bois chaud
+  informatique: { label: 'Développeur Web', color: '#2563EB', bgLight: '#DBEAFE' }, // Bleu tech
+  maçonnerie: { label: 'Maçonnerie générale', color: '#585a58', bglight: '#DBEAFE' },
   default: { label: 'Autre', color: '#4F46E5', bgLight: '#EEF2FF' },          // Indigo standard
 };
 export const getMetierConfig = (key) => {

@@ -4,25 +4,33 @@ import { Search, MapPin, SlidersHorizontal, RotateCcw, Frown } from "lucide-reac
 import ProCard from "../../components/home/ProCard";
 import { mockPros } from "../../data/mockPros";
 import "./SearchPro.scss";
+
+// Fonction utilitaire pour ignorer la casse et les accents
+const normalizeText = (text = "") =>
+  text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
 export default function SearchPro() {
   const [searchParams, setSearchParams] = useSearchParams();
-  // 1. Lecture des paramètres d'URL (?metier=...&ville=...)
+
   const metierParam = searchParams.get("metier") || "";
   const villeParam = searchParams.get("ville") || "";
-  // 2. États locaux des champs de recherche
+
   const [metierInput, setMetierInput] = useState(metierParam);
   const [villeInput, setVilleInput] = useState(villeParam);
-  // Synchronise les inputs si l'URL change (ex: clic sur un lien du menu)
+
   useEffect(() => {
     setMetierInput(metierParam);
     setVilleInput(villeParam);
   }, [metierParam, villeParam]);
-  // 3. Filtres avancés
-  const [selectedDispo, setSelectedDispo] = useState("all"); // "all", "today", "tomorrow"
-  const [minRating, setMinRating] = useState(0); // 0, 4.5, 4.8
-  const [typeFilter, setTypeFilter] = useState("all"); // "all", "fixed", "quote"
-  const [sortBy, setSortBy] = useState("default"); // "default", "rating", "price"
-  // 4. Soumission du formulaire de recherche haute
+
+  const [selectedDispo, setSelectedDispo] = useState("all");
+  const [minRating, setMinRating] = useState(0);
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("default");
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const params = new URLSearchParams();
@@ -30,7 +38,7 @@ export default function SearchPro() {
     if (villeInput.trim()) params.set("ville", villeInput.trim());
     setSearchParams(params);
   };
-  // 5. Clic sur un tag rapide
+
   const handleQuickTag = (tag) => {
     setMetierInput(tag);
     const params = new URLSearchParams();
@@ -38,7 +46,7 @@ export default function SearchPro() {
     if (villeInput.trim()) params.set("ville", villeInput.trim());
     setSearchParams(params);
   };
-  // 6. Réinitialisation complète des filtres
+
   const handleReset = () => {
     setMetierInput("");
     setVilleInput("");
@@ -48,32 +56,32 @@ export default function SearchPro() {
     setSortBy("default");
     setSearchParams({});
   };
-  // 7. Filtrage dynamique et tri (avec useMemo pour la performance)
+
+  // Filtrage robuste insensible aux accents / majuscules
   const filteredPros = useMemo(() => {
     return mockPros
       .filter((pro) => {
-        // Filtrage par métier
+        // Filtrage métier / nom
         if (metierParam) {
-          const query = metierParam.toLowerCase();
-          const match =
-            pro.metier.toLowerCase().includes(query) ||
-            pro.name.toLowerCase().includes(query);
-          if (!match) return false;
+          const query = normalizeText(metierParam);
+          const matchMetier = normalizeText(pro.metier).includes(query);
+          const matchName = normalizeText(pro.name).includes(query);
+          if (!matchMetier && !matchName) return false;
         }
-        // Filtrage par ville
+
+        // Filtrage ville
         if (villeParam) {
-          const cityQuery = villeParam.toLowerCase();
+          const cityQuery = normalizeText(villeParam);
           const matchCity =
-            pro.ville.toLowerCase().includes(cityQuery) ||
+            normalizeText(pro.ville).includes(cityQuery) ||
             (pro.codePostal && pro.codePostal.includes(cityQuery));
           if (!matchCity) return false;
         }
-        // Filtrage par note minimale
+
+        // Autres filtres
         if (minRating > 0 && pro.rating < minRating) return false;
-        // Filtrage par type d'intervention (devis vs prix fixe)
         if (typeFilter === "quote" && pro.startingPrice !== "Sur devis") return false;
         if (typeFilter === "fixed" && pro.startingPrice === "Sur devis") return false;
-        // Filtrage par disponibilité
         if (
           selectedDispo === "today" &&
           !pro.nextSlot?.toLowerCase().includes("aujourd'hui")
@@ -84,6 +92,7 @@ export default function SearchPro() {
           !pro.nextSlot?.toLowerCase().includes("demain")
         )
           return false;
+
         return true;
       })
       .sort((a, b) => {
@@ -96,6 +105,7 @@ export default function SearchPro() {
         return 0;
       });
   }, [metierParam, villeParam, selectedDispo, minRating, typeFilter, sortBy]);
+
   return (
     <div className="search-page">
       <div className="search-container">
@@ -126,7 +136,8 @@ export default function SearchPro() {
               Rechercher
             </button>
           </form>
-          {/* Tags de filtres rapides */}
+
+          {/* Tags d'accès direct corrigés */}
           <div className="search-quick-tags">
             <span className="tags-title">Accès direct :</span>
             <button
@@ -138,31 +149,51 @@ export default function SearchPro() {
             </button>
             <button
               type="button"
-              className={`tag-btn ${metierParam.toLowerCase() === "coiffure" ? "active" : ""}`}
+              className={`tag-btn ${normalizeText(metierParam) === "coiffure" ? "active" : ""}`}
               onClick={() => handleQuickTag("Coiffure")}
             >
               ✂️ Coiffure
             </button>
             <button
               type="button"
-              className={`tag-btn ${metierParam.toLowerCase() === "plomberie" ? "active" : ""}`}
+              className={`tag-btn ${normalizeText(metierParam) === "plomberie" ? "active" : ""}`}
               onClick={() => handleQuickTag("Plomberie")}
             >
               🔧 Plomberie
             </button>
             <button
               type="button"
-              className={`tag-btn ${metierParam.toLowerCase() === "terrassement" ? "active" : ""}`}
+              className={`tag-btn ${normalizeText(metierParam) === "terrassement" ? "active" : ""}`}
               onClick={() => handleQuickTag("Terrassement")}
             >
               🚜 Terrassement
             </button>
+            <button
+              type="button"
+              className={`tag-btn ${normalizeText(metierParam) === "informatique" ? "active" : ""}`}
+              onClick={() => handleQuickTag("Développeur web")}
+            >
+              💻 Informatique
+            </button>
+            <button
+              type="button"
+              className={`tag-btn ${normalizeText(metierParam) === "electricite" ? "active" : ""}`}
+              onClick={() => handleQuickTag("Electricité")}
+            >
+              🪛 Électricité
+            </button>
+             <button
+              type="button"
+              className={`tag-btn ${normalizeText(metierParam) === "maçonnerie générale" ? "active" : ""}`}
+              onClick={() => handleQuickTag("maçonnerie générale")}
+            >
+              🧱 Maçonnerie générale
+            </button>
           </div>
         </div>
-        {/* CONTENU PRINCIPAL : FILTRES GAUCHE + RÉSULTATS DROITE */}
+
+        {/* RESTE DU COMPOSANT SANS CHANGEMENT */}
         <div className="search-layout">
-          
-          {/* BARRE LATÉRALE DE FILTRES */}
           <aside className="search-filters-sidebar">
             <div className="filters-header">
               <span className="filters-title">
@@ -176,7 +207,7 @@ export default function SearchPro() {
                 </button>
               )}
             </div>
-            {/* Filtre Disponibilité */}
+
             <div className="filter-group">
               <label>Disponibilité</label>
               <div className="filter-options">
@@ -209,7 +240,7 @@ export default function SearchPro() {
                 </label>
               </div>
             </div>
-            {/* Filtre Note minimale */}
+
             <div className="filter-group">
               <label>Avis clients</label>
               <div className="filter-options">
@@ -233,7 +264,7 @@ export default function SearchPro() {
                 </label>
               </div>
             </div>
-            {/* Filtre Type d'intervention */}
+
             <div className="filter-group">
               <label>Type d'intervention</label>
               <div className="filter-options">
@@ -267,10 +298,8 @@ export default function SearchPro() {
               </div>
             </div>
           </aside>
-          {/* ZONE DE RÉSULTATS */}
+
           <main className="search-results-area">
-            
-            {/* Barre de résumé & Tri */}
             <div className="results-header">
               <h2 className="results-count">
                 <strong>{filteredPros.length}</strong> professionnel{filteredPros.length > 1 ? "s" : ""} disponible{filteredPros.length > 1 ? "s" : ""}
@@ -290,7 +319,7 @@ export default function SearchPro() {
                 </select>
               </div>
             </div>
-            {/* Liste des cartes pros */}
+
             {filteredPros.length > 0 ? (
               <div className="results-grid">
                 {filteredPros.map((pro) => (
@@ -298,7 +327,6 @@ export default function SearchPro() {
                 ))}
               </div>
             ) : (
-              /* Écran 0 résultat */
               <div className="empty-results">
                 <Frown size={44} className="empty-icon" />
                 <h3>Aucun professionnel trouvé</h3>

@@ -41,4 +41,11 @@ export const mockCategories = [
     count: "51 pros",
     query: "jardin",
   },
+  {
+    id: 7,
+    name: "Développeur",
+    icon: "💻",
+    count: "60 pros",
+    query : "informatique",
+  },
 ];

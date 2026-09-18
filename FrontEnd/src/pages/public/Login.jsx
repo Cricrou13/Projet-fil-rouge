@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { 
   User, 
   Briefcase, 
@@ -18,6 +19,7 @@ import "./Login.scss";
 export default function Login() {
   const navigate = useNavigate();
   // Mode : "login" (Connexion) ou "register" (Inscription)
+  const { login, loginClient } = useAuth();
   const [mode, setMode] = useState("login");
   // Profil : "client" ou "pro"
   const [role, setRole] = useState("client");
@@ -45,19 +47,27 @@ export default function Login() {
     }));
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSuccess(true);
-    // Simulation de connexion avec redirection après 1.2s
-    setTimeout(() => {
-      if (role === "pro") {
-        // Redirection vers l'Espace Artisan
-        navigate("/pro/tableau-de-bord");
-      } else {
-        // Redirection vers le site public / Mes rendez-vous
-        navigate("/mes-rendez-vous");
-      }
-    }, 1200);
-  };
+  e.preventDefault();
+  setIsSuccess(true);
+
+  if (role === "pro") {
+    // En mode connexion, le champ "name" n'existe pas dans le formulaire :
+    // on utilise le début de l'email comme nom d'affichage à défaut de backend
+    const displayName = formData.name || formData.email.split("@")[0];
+    login(formData.metier, displayName);
+  } else {
+    const displayName = formData.name || formData.email.split("@")[0];
+    loginClient(displayName);
+  }
+
+  setTimeout(() => {
+    if (role === "pro") {
+      navigate("/pro/tableau-de-bord");
+    } else {
+      navigate("/mes-rendez-vous");
+    }
+  }, 1200);
+};
   return (
     <div className="auth-page">
       <div className="auth-container">
@@ -193,6 +203,7 @@ export default function Login() {
                             <option value="terrassement">🚜 Terrassement & BTP</option>
                             <option value="peinture">🎨 Peinture & Rénovation</option>
                             <option value="jardinage">🌿 Paysagiste & Jardin</option>
+                            <option value="Informatique">💻 Développeur Web</option>
                           </select>
                         </div>
                         <div className="form-group">
@@ -230,6 +241,25 @@ export default function Login() {
                   </div>
                 </>
               )}
+
+              {role === "pro" && mode === "login" && (
+                <div className="form-group">
+                  <label htmlFor="metier">Se connecter en tant que</label>
+                  <select
+                    id="metier"
+                    name="metier"
+                    value={formData.metier}
+                    onChange={handleChange}
+                  >
+                    <option value="coiffure">✂️ Coiffure & Barbier</option>
+                    <option value="electricite">⚡ Électricité générale</option>
+                    <option value="plomberie">🔧 Plomberie & Chauffage</option>
+                    <option value="terrassement">🚜 Terrassement & BTP</option>
+                    <option value="peinture">🎨 Peinture & Rénovation</option>
+                    <option value="jardinage">🌿 Paysagiste & Jardin</option>
+                  </select>
+                </div>
+)}
               {/* CHAMPS COMMUNS : EMAIL & MOT DE PASSE */}
               <div className="form-group">
                 <label htmlFor="email">Adresse e-mail</label>

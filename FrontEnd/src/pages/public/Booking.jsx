@@ -1,5 +1,5 @@
+import { Navigate, useSearchParams, useNavigate, Link } from "react-router-dom";
 import { useState, useMemo } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { 
   Calendar, 
   ArrowLeft, 
@@ -10,6 +10,7 @@ import {
   MapPin,
   Clock
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 import BookingStepper from "../../components/booking/BookingStepper";
 import ServiceSelector from "../../components/booking/ServiceSelector";
 import DateTimePicker from "../../components/booking/DateTimePicker";
@@ -18,15 +19,19 @@ import { mockPros } from "../../data/mockPros";
 import { mockServices } from "../../data/mockServices";
 import { getMetierConfig } from "../../data/metiers";
 import "./Booking.scss";
+
 export default function Booking() {
+  const { isClientConnected } = useAuth();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
   // 1. Récupération de l'artisan choisi via l'URL (?pro=1) ou artisan par défaut
   const proId = Number(searchParams.get("pro")) || 1;
   const currentPro = useMemo(() => {
     return mockPros.find((p) => p.id === proId) || mockPros[0];
   }, [proId]);
   const metierConfig = getMetierConfig(currentPro.metier);
+
   // 2. Services adaptés à l'artisan
   const services = useMemo(() => {
     if (currentPro.prestations && currentPro.prestations.length > 0) {
@@ -39,6 +44,7 @@ export default function Booking() {
     }
     return mockServices;
   }, [currentPro]);
+
   // États du tunnel
   const [step, setStep] = useState(1);
   const [service, setService] = useState(null);
@@ -50,13 +56,21 @@ export default function Booking() {
     telephone: "06 12 34 56 78"
   });
   const [isConfirmed, setIsConfirmed] = useState(false);
+
   // Validation par étape
   const canGoNext =
     (step === 1 && service) ||
     (step === 2 && date && heure);
+
   const handleConfirm = () => {
     setIsConfirmed(true);
   };
+
+  // ⚠️ Le test de connexion arrive APRÈS tous les Hooks, jamais avant
+  if (!isClientConnected) {
+    return <Navigate to="/connexion" replace />;
+  }
+
   return (
     <div className="booking-page">
       <div className="booking-container">

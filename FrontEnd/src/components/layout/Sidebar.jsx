@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import {
   LayoutDashboard,
   Calendar,
@@ -18,7 +20,16 @@ export default function Sidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
   // Gestion de la sidebar rétractable sur desktop
   const [isCollapsed, setIsCollapsed] = useState(false);
-  return (
+
+  const { logout} = useAuth();
+  const navigate = useNavigate;
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
+    return (
     <>
       {/* Bouton burger visible uniquement sur mobile */}
       <button
@@ -109,14 +120,14 @@ export default function Sidebar() {
           </NavLink>
         </nav>
         {/* Bas de la sidebar : Déconnexion */}
-        <div className="sidebar-footer">
-          <Link to="/" className="sidebar-logout" title="Déconnexion (retour au site client)">
-          <span className="icon-badge icon-badge--red">
-            <LogOut size={20} aria-hidden="true" />
-          </span>
-            {!isCollapsed && <span className="sidebar-label">Déconnexion</span>}
-          </Link>
-        </div>
+          <div className="sidebar-footer">
+            <button type="button" className="sidebar-logout" onClick={handleLogout} title="Déconnexion">
+              <span className="icon-badge icon-badge--red">
+                <LogOut size={20} aria-hidden="true" />
+              </span>
+              {!isCollapsed && <span className="sidebar-label">Déconnexion</span>}
+            </button>
+          </div>
       </aside>
     </>
   );

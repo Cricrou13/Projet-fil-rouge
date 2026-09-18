@@ -9,7 +9,9 @@ import {
   Trees, 
   Sparkles, 
   Hammer, 
-  HelpCircle 
+  Computer,
+  HelpCircle,
+
 } from "lucide-react";
 import { mockCategories } from "../../data/mockCategories";
 import { getMetierConfig } from "../../data/metiers";
@@ -25,6 +27,7 @@ const ICON_MAP = {
   jardinage: Trees,
   nettoyage: Sparkles,
   menuiserie: Hammer,
+  Developpeur: Computer,
 };
 
 export default function CategoriesGrid() {

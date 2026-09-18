@@ -1,25 +1,24 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { getMetierConfig } from "../../data/metiers";
+import { mockPlanning } from "../../data/mockPlanning";
 import "./Agenda.scss";
 
-const mockAppointments = [
-  { id: 1, day: "Lun 1", client: "Marie D.", service: "Électricité", time: "09h-10h", type: "blue" },
-  { id: 2, day: "Mar 2", client: "Soin barbe", service: "Coiffure", time: "10h-11h", type: "purple" },
-  { id: 3, day: "Jeu 4", client: "Marc D.", service: "Électricité", time: "09h-10h", type: "primary" },
-  { id: 4, day: "Jeu 4", client: "Christophe R.", service: "Plomberie", time: "14h30", type: "green" },
-];
-
 export default function Planning() {
+  const { metier = "default" } = useOutletContext() || {};
+  const config = getMetierConfig(metier);
+  const appointments = mockPlanning[metier] || mockPlanning.default;
+
   const days = ["Lun 1", "Mar 2", "Mer 3", "Jeu 4", "Ven 5", "Sam 6"];
 
   return (
     <div className="planning-container">
-      {/* HEADER - On garde ta structure mais on ajuste le style */}
+      {/* HEADER */}
       <div className="planning-header">
         <div className="planning-header__title">
           <h2>Planning des rendez-vous</h2>
-          <p>Semaine en cours · Salon Avaro</p>
+          <p>Semaine en cours</p>
         </div>
 
         <div className="planning-header__actions">
@@ -44,22 +43,18 @@ export default function Planning() {
             </div>
             
             <div className="day-content">
-              {/* On filtre les RDV pour n'afficher que ceux de ce jour */}
-              {mockAppointments
+              {appointments
                 .filter((app) => app.day === day)
-                .map((app) => {
-                  const config = getMetierConfig(app.service);
-                  return (
-                    <div 
-                      key={app.id} 
-                      className={`event-card event--${app.type}`}
-                      style={{ borderLeftColor: config.color }}
-                    >
-                      <span className="event-time">{app.time}:</span>
-                      <span className="event-client">{app.client}</span>
-                    </div>
-                  );
-                })}
+                .map((app) => (
+                  <div 
+                    key={app.id} 
+                    className="event-card"
+                    style={{ borderLeftColor: config.color }}
+                  >
+                    <span className="event-time">{app.time}:</span>
+                    <span className="event-client">{app.client}</span>
+                  </div>
+                ))}
             </div>
           </div>
         ))}

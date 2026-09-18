@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
+import { mockDashboard } from "../../data/mockDasboard";
 import { 
   Calendar, 
   Clock, 
@@ -18,73 +20,14 @@ import {
 } from "lucide-react";
 import StatCard from "../../components/pro/StatCard";
 import "./DashBoard.scss";
-// Données initiales des rendez-vous du jour
-const initialDayRdv = [
-  {
-    id: 1,
-    heure: "09:00",
-    client: "Marc Dupont",
-    telephone: "06 78 90 12 34",
-    prestation: "Coupe classique + Barbe",
-    prix: "35 €",
-    statut: "termine", // "termine" | "confirme" | "en_attente"
-    isNew: false,
-  },
-  {
-    id: 2,
-    heure: "11:15",
-    client: "Thomas Edouard",
-    telephone: "06 12 34 56 78",
-    prestation: "Taille de barbe sculptée",
-    prix: "20 €",
-    statut: "confirme",
-    isNew: false,
-  },
-  {
-    id: 3,
-    heure: "14:30",
-    client: "Christophe Ramirez",
-    telephone: "06 99 88 77 66",
-    prestation: "Coupe homme + Soin cuir chevelu",
-    prix: "28 €",
-    statut: "confirme",
-    isNew: true, // Nouveau client !
-  },
-  {
-    id: 4,
-    heure: "16:45",
-    client: "Julien Martin",
-    telephone: "06 55 44 33 22",
-    prestation: "Coupe ciseaux dégradé américain",
-    prix: "30 €",
-    statut: "en_attente",
-    isNew: false,
-  },
-];
-// Devis initiaux reçus
-const initialQuotes = [
-  {
-    id: 101,
-    client: "Valérie Bertrand",
-    demande: "Prestation mariage & coiffure événementielle (4 personnes)",
-    date: "Reçu il y a 2h",
-    budget: "~ 180 €",
-  },
-  {
-    id: 102,
-    client: "Fabien Garcia",
-    demande: "Forfait coiffure entreprise / shooting photo",
-    date: "Reçu hier",
-    budget: "~ 95 €",
-  },
-];
+
 export default function Dashboard() {
-  const [appointments, setAppointments] = useState(initialDayRdv);
-  const [quotes, setQuotes] = useState(initialQuotes);
-  const [notes, setNotes] = useState([
-    "Ne pas oublier de commander les cires coiffantes chez le fournisseur.",
-    "Rappeler M. Jacquot pour confirmation du métrage vendredi.",
-  ]);
+  const { metier = "default" } = useOutletContext() || {};
+  const dashboardData = mockDashboard[metier] || mockDashboard.default;
+  const [appointments, setAppointments] = useState(dashboardData.appointments);
+  const [quotes, setQuotes] = useState(dashboardData.quotes);
+  const [notes, setNotes] = useState(dashboardData.notes);
+   
   const [newNoteInput, setNewNoteInput] = useState("");
   const [notification, setNotification] = useState(null);
   // Valider un RDV en attente

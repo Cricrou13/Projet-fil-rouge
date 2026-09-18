@@ -1,11 +1,21 @@
-import "./ProCard.scss";
+import { Link } from 'react-router-dom';
 
-export default function ProCard({ pro }) {
+export function ProCard({ pro }) {
   return (
     <div className="pro-card">
-      <h3>{pro.name}</h3>
-      <p>{pro.metier}</p>
-      <span>{pro.ville}</span>
+      {/* ... Le reste du contenu de la carte ... */}
+
+      <div className="card-actions">
+        {/* Bouton Voir le Profil / Réserver */}
+        <Link to={`/booking?pro=${pro.id}`}>
+          <button className="btn-profil">Profil</button>
+        </Link>
+
+        {/* Ou pour le bouton "Prendre RDV" */}
+        <Link to={`/booking?pro=${pro.id}`}>
+          <button className="btn-rdv">Prendre RDV</button>
+        </Link>
+      </div>
     </div>
   );
 }
