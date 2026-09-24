@@ -203,6 +203,13 @@
     font-size: 0.875rem;
     font-weight: 500;
     transition: all 0.15s ease;
+    
+    /* Ajouts recommandés pour un bouton propre */
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
 
     &:hover {
       background-color: #fef2f2;

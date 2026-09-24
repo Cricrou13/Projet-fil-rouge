@@ -39,7 +39,7 @@ export const mockCategories = [
     name: "Espaces Verts",
     icon: "🌳",
     count: "51 pros",
-    query: "jardin",
+    query: "espaces-verts",
   },
   {
     id: 7,

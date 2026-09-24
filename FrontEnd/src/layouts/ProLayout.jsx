@@ -1,4 +1,4 @@
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useNavigate } from "react-router-dom";
 import Topbar from "../components/layout/Topbar";
 import Sidebar from "../components/layout/Sidebar";
 import { getMetierConfig } from "../data/metiers";
@@ -6,14 +6,22 @@ import { useAuth } from "../context/AuthContext";
 import "./ProLayout.scss";
 
 export default function ProLayout() {
-  const { proMetier, proNom } = useAuth();
+  const { proUser, proMetier, logoutPro } = useAuth(); 
+  const navigate = useNavigate();
 
-  // Si personne n'est connecté, on empêche l'accès à l'espace pro
-  if (!proMetier) {
-    return <Navigate to="/connexion" replace />;
+  // 🔒 PROTECTION : Redirection vers la connexion pro dédiée
+  if (!proUser) {
+    return <Navigate to="/pro/connexion" replace />;
   }
 
-  const config = getMetierConfig(proMetier);
+  // Fonction de déconnexion
+  const handleLogout = () => {
+    if (logoutPro) logoutPro();
+    navigate("/pro/connexion", { replace: true });
+  };
+
+  const currentMetier = proMetier || proUser?.metier || "default";
+  const config = getMetierConfig(currentMetier) || { color: '#007bff', bgLight: '#f8f9fa' };
 
   return (
     <div
@@ -24,11 +32,11 @@ export default function ProLayout() {
       }}
     >
       <div className="pro-body">
-        <Sidebar />
+        <Sidebar onLogout={handleLogout} />
         <div className="pro-content">
-          <Topbar nom={proNom || "Pro"} />
+          <Topbar nom={proUser?.nom || "Pro"} onLogout={handleLogout} />
           <main>
-            <Outlet context={{ metier: proMetier }} />
+            <Outlet context={{ metier: currentMetier }} />
           </main>
         </div>
       </div>

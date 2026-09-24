@@ -24,10 +24,10 @@ const ICON_MAP = {
   terrassement: Tractor,
   electricite: Zap,
   peinture: Paintbrush,
-  jardinage: Trees,
+  "espaces-verts": Trees,
   nettoyage: Sparkles,
   menuiserie: Hammer,
-  Developpeur: Computer,
+  informatique: Computer,
 };
 
 export default function CategoriesGrid() {

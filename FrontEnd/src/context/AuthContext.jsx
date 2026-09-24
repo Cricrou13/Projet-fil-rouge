@@ -1,28 +1,56 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  // null = personne n'est connectée en tant que pro
-  const [proUser, setProUser] = useState(null);
-  // null = personne n'est connectée en tant que client
-  const [clientUser, setClientUser] = useState(null);
+  // Récupération de la session existante dans le localStorage au chargement
+  const [proUser, setProUser] = useState(() => {
+    const saved = localStorage.getItem("proUser");
+    return saved ? JSON.parse(saved) : null;
+  });
 
-  const login = (metier, nom) => setProUser({ metier, nom });
-  const logout = () => setProUser(null);
+  const [clientUser, setClientUser] = useState(() => {
+    const saved = localStorage.getItem("clientUser");
+    return saved ? JSON.parse(saved) : null;
+  });
 
-  const loginClient = (nom) => setClientUser({ nom });
-  const logoutClient = () => setClientUser(null);
+  // Connexion d'un Pro / Artisan
+  const loginPro = (userData) => {
+    setProUser(userData);
+    localStorage.setItem("proUser", JSON.stringify(userData));
+  };
+
+  // Déconnexion Pro
+  const logoutPro = () => {
+    setProUser(null);
+    localStorage.removeItem("proUser");
+  };
+
+  // Connexion d'un Client
+  const loginClient = (userData) => {
+    setClientUser(userData);
+    localStorage.setItem("clientUser", JSON.stringify(userData));
+  };
+
+  // Déconnexion Client
+  const logoutClient = () => {
+    setClientUser(null);
+    localStorage.removeItem("clientUser");
+  };
+
+  // Utilisateur actuellement actif (pro ou client)
+  const user = proUser || clientUser;
 
   return (
     <AuthContext.Provider
       value={{
-        proMetier: proUser?.metier || null,
-        proNom: proUser?.nom || null,
-        login,
-        logout,
-        clientNom: clientUser?.nom || null,
+        user,
+        proUser,
+        clientUser,
+        isProConnected: !!proUser,
         isClientConnected: !!clientUser,
+        loginPro,
+        logoutPro,
         loginClient,
         logoutClient,
       }}
@@ -33,5 +61,9 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth doit être utilisé à l'intérieur d'un AuthProvider");
+  }
+  return context;
 }

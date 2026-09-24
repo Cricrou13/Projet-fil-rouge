@@ -21,11 +21,11 @@ export default function Sidebar() {
   // Gestion de la sidebar rétractable sur desktop
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const { logout} = useAuth();
-  const navigate = useNavigate;
+  const { logoutPro} = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
+    logoutPro();
     navigate("/");
   };
 

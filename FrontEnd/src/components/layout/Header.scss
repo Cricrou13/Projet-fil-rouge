@@ -1,114 +1,150 @@
-@use "../../styles/mixins" as *;
-
 .header {
-  background-color: lightgray;
-  border-bottom: 1px solid var(--color-border);
-  padding: 0.75rem 0;
-  position: sticky;
-  top: 0;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
   z-index: 1000;
 
   &__container {
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0;
+    padding: 1rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    position: relative; 
   }
 
-  // Logo
   &__logo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
     text-decoration: none;
-    
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #1f2937;
+
     .logo-box {
-      background-color: var(--color-primary);
+      background-color: #4f46e5;
       color: white;
       width: 32px;
       height: 32px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 8px;
-      font-size: 1.2rem;
     }
-    .logo-text {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--color-text-dark);
-      .blue { color: var(--color-primary); }
+
+    .logo-text .blue {
+      color: #4f46e5;
     }
   }
 
-  // Nav
+  &__burger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #1f2937;
+    padding: 0 0.5rem;
+  }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
   &__nav {
     display: flex;
     gap: 1.5rem;
-    align-items: center;
+
     a {
       text-decoration: none;
-      color: var(--color-text-secondary, #475569);
-      font-size: 0.9rem;
+      color: #4b5563;
       font-weight: 500;
-      padding-bottom: 4px;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s ease;
-      &:hover { 
-        color: var(--color-primary, #4338CA); 
-      }
-      // ✅ Le lien de la page courante reste bleu !
-      &.active {
-        color: var(--color-primary, #4338CA);
-        font-weight: 700;
-        border-bottom-color: var(--color-primary, #4338CA);
+
+      &:hover {
+        color: #4f46e5;
       }
     }
   }
 
-  // Actions
   &__actions {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1rem;
 
     .btn-pro {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background-color: #f1f5f9;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      background-color: #f3f4f6;
+      color: #374151;
+      font-weight: 500;
       border: none;
-      padding: 0.6rem 1rem;
-      border-radius: 8px;
-      color: var(--color-primary);
-      font-weight: 600;
-      font-size: 0.85rem;
       cursor: pointer;
-      &:hover { background-color: #e2e8f0; }
-    }
-
-    .user-link {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--color-text-neutral);
-      font-size: 0.9rem;
-      cursor: pointer;
-      &:hover { color: var(--color-primary); }
     }
 
     .btn-primary {
-      background-color: var(--color-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      background-color: #4f46e5;
       color: white;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      &:hover { background-color: var(--color-primary-hover); }
+      font-weight: 500;
+    }
+  }
+}
+
+/* --- VERSION MOBILE --- */
+@media (max-width: 768px) {
+  .header {
+    overflow: visible !important;
+
+    &__burger {
+      display: block !important;
+    }
+
+    &__menu {
+      display: none; 
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background-color: #ffffff;
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      z-index: 9999; 
+
+      // FORCER l'affichage lors de l'ouverture
+      &.is-open {
+        display: flex !important;
+      }
+    }
+
+    &__nav {
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    &__actions {
+      flex-direction: column;
+      width: 100%;
+      gap: 0.75rem;
+
+      .btn-pro, 
+      .btn-primary {
+        width: 100%;
+        text-align: center;
+        display: block;
+      }
     }
   }
 }

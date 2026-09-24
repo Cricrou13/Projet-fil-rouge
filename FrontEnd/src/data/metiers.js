@@ -4,7 +4,7 @@ export const METIERS = {
   terrassement: { label: 'Terrassement', color: '#D97706', bgLight: '#FEF3C7' }, // Ambre / Ocre chantier
   plomberie: { label: 'Plomberie', color: '#0284C7', bgLight: '#E0F2FE' },     // Bleu ciel / Cyan
   peinture: { label: 'Peinture', color: '#7C3AED', bgLight: '#F3E8FF' },       // Violet
-  jardinage: { label: 'Jardinage', color: '#16A34A', bgLight: '#DCFCE7' },     // Vert nature
+  "espaces-verts": { label: 'Jardinage', color: '#16A34A', bgLight: '#DCFCE7' },     // Vert nature
   nettoyage: { label: 'Nettoyage', color: '#0D9488', bgLight: '#CCFBF1' },     // Sarcelle / Teal
   menuiserie: { label: 'Menuiserie', color: '#B45309', bgLight: '#FEF3C7' },   // Bois chaud
   informatique: { label: 'Développeur Web', color: '#2563EB', bgLight: '#DBEAFE' }, // Bleu tech

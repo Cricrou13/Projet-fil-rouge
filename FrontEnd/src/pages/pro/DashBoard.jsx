@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useOutletContext } from "react-router-dom";
-import { mockDashboard } from "../../data/mockDasboard";
+import { Link, useOutletContext } from "react-router-dom";
+import { mockDashboard } from "../../data/mockDashboard";
 import { 
   Calendar, 
   Clock, 
@@ -22,14 +21,20 @@ import StatCard from "../../components/pro/StatCard";
 import "./DashBoard.scss";
 
 export default function Dashboard() {
-  const { metier = "default" } = useOutletContext() || {};
-  const dashboardData = mockDashboard[metier] || mockDashboard.default;
-  const [appointments, setAppointments] = useState(dashboardData.appointments);
-  const [quotes, setQuotes] = useState(dashboardData.quotes);
-  const [notes, setNotes] = useState(dashboardData.notes);
-   
+  const outletContext = useOutletContext();
+  const metier = outletContext?.metier || "default";
+
+  // Récupération sécurisée des données selon le métier
+  const dashboardData = mockDashboard[metier] || mockDashboard.default || {};
+
+  // Initialisation sécurisée avec des tableaux vides par défaut
+  const [appointments, setAppointments] = useState(dashboardData.appointments || []);
+  const [quotes, setQuotes] = useState(dashboardData.quotes || []);
+  const [notes, setNotes] = useState(dashboardData.notes || []);
+
   const [newNoteInput, setNewNoteInput] = useState("");
   const [notification, setNotification] = useState(null);
+
   // Valider un RDV en attente
   const handleValidate = (id, client) => {
     setAppointments((prev) =>
@@ -37,6 +42,7 @@ export default function Dashboard() {
     );
     triggerNotif(`Le rendez-vous de ${client} a été validé !`);
   };
+
   // Marquer un RDV comme terminé
   const handleComplete = (id, client) => {
     setAppointments((prev) =>
@@ -44,16 +50,19 @@ export default function Dashboard() {
     );
     triggerNotif(`Intervention avec ${client} marquée comme terminée.`);
   };
+
   // Traiter un devis (Accepter)
   const handleAcceptQuote = (id, client) => {
     setQuotes((prev) => prev.filter((q) => q.id !== id));
     triggerNotif(`Devis de ${client} accepté et transféré au planning !`);
   };
+
   // Refuser un devis
   const handleDeclineQuote = (id) => {
     setQuotes((prev) => prev.filter((q) => q.id !== id));
     triggerNotif(`Demande de devis déclinée.`);
   };
+
   // Ajouter une note rapide
   const handleAddNote = (e) => {
     e.preventDefault();
@@ -61,14 +70,17 @@ export default function Dashboard() {
     setNotes((prev) => [...prev, newNoteInput.trim()]);
     setNewNoteInput("");
   };
+
   // Supprimer une note
   const handleDeleteNote = (index) => {
     setNotes((prev) => prev.filter((_, i) => i !== index));
   };
+
   const triggerNotif = (msg) => {
     setNotification(msg);
     setTimeout(() => setNotification(null), 3500);
   };
+
   return (
     <div className="dashboard-modern">
       {/* NOTIFICATION D'ACTION EN DIRECT */}
@@ -78,11 +90,12 @@ export default function Dashboard() {
           <span>{notification}</span>
         </div>
       )}
+
       {/* 1. GRILLE DE STATISTIQUES */}
       <div className="stats-grid">
         <StatCard 
           title="Interventions du jour" 
-          value="4 RDV" 
+          value={`${appointments.length} RDV`} 
           subtitle="Journée complète (100%)" 
           type="positive" 
         />
@@ -105,6 +118,7 @@ export default function Dashboard() {
           type="neutral" 
         />
       </div>
+
       {/* 2. DISPOSITION EN 2 COLONNES */}
       <div className="dashboard-main-grid">
         {/* COLONNE PRINCIPALE : PLANNING DU JOUR + DEVIS */}
@@ -121,60 +135,70 @@ export default function Dashboard() {
                 <ChevronRight size={16} />
               </Link>
             </div>
+            
             <div className="appointment-list-modern">
-              {appointments.map((rdv) => (
-                <div 
-                  key={rdv.id} 
-                  className={`appointment-row ${rdv.statut === "termine" ? "is-finished" : ""}`}
-                >
-                  <div className="row-time">
-                    <Clock size={15} />
-                    <span>{rdv.heure}</span>
-                  </div>
-                  <div className="row-info">
-                    <div className="client-line">
-                      <strong>{rdv.client}</strong>
-                      {rdv.isNew && <span className="badge-new-client">Nouveau</span>}
+              {appointments.length === 0 ? (
+                <p className="empty-quotes">Aucun rendez-vous prévu pour aujourd'hui.</p>
+              ) : (
+                appointments.map((rdv) => (
+                  <div 
+                    key={rdv.id} 
+                    className={`appointment-row ${rdv.statut === "termine" ? "is-finished" : ""}`}
+                  >
+                    <div className="row-time">
+                      <Clock size={15} />
+                      <span>{rdv.heure}</span>
                     </div>
-                    <span className="service-name">{rdv.prestation}</span>
-                  </div>
-                  <div className="row-price">
-                    {rdv.prix}
-                  </div>
-                  <div className="row-actions">
-                    <a href={`tel:${rdv.telephone.replace(/\s+/g, '')}`} className="btn-call" title="Appeler">
-                      <Phone size={14} />
-                    </a>
-                    {rdv.statut === "en_attente" && (
-                      <button 
-                        type="button" 
-                        className="btn-action-validate"
-                        onClick={() => handleValidate(rdv.id, rdv.client)}
-                        title="Valider le rendez-vous"
+                    <div className="row-info">
+                      <div className="client-line">
+                        <strong>{rdv.client}</strong>
+                        {rdv.isNew && <span className="badge-new-client">Nouveau</span>}
+                      </div>
+                      <span className="service-name">{rdv.prestation}</span>
+                    </div>
+                    <div className="row-price">
+                      {rdv.prix}
+                    </div>
+                    <div className="row-actions">
+                      <a 
+                        href={`tel:${rdv.telephone ? rdv.telephone.replace(/\s+/g, '') : ''}`} 
+                        className="btn-call" 
+                        title="Appeler"
                       >
-                        Valider
-                      </button>
-                    )}
-                    {rdv.statut === "confirme" && (
-                      <button 
-                        type="button" 
-                        className="btn-action-finish"
-                        onClick={() => handleComplete(rdv.id, rdv.client)}
-                        title="Marquer comme fait"
-                      >
-                        Terminer
-                      </button>
-                    )}
-                    {rdv.statut === "termine" && (
-                      <span className="badge-done">
-                        <Check size={14} /> Terminé
-                      </span>
-                    )}
+                        <Phone size={14} />
+                      </a>
+                      {rdv.statut === "en_attente" && (
+                        <button 
+                          type="button" 
+                          className="btn-action-validate"
+                          onClick={() => handleValidate(rdv.id, rdv.client)}
+                          title="Valider le rendez-vous"
+                        >
+                          Valider
+                        </button>
+                      )}
+                      {rdv.statut === "confirme" && (
+                        <button 
+                          type="button" 
+                          className="btn-action-finish"
+                          onClick={() => handleComplete(rdv.id, rdv.client)}
+                          title="Marquer comme fait"
+                        >
+                          Terminer
+                        </button>
+                      )}
+                      {rdv.statut === "termine" && (
+                        <span className="badge-done">
+                          <Check size={14} /> Terminé
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </section>
+
           {/* DEMANDES DE DEVIS À TRAITER */}
           <section className="dash-card">
             <div className="dash-card__header">
@@ -219,6 +243,7 @@ export default function Dashboard() {
             )}
           </section>
         </div>
+
         {/* COLONNE LATÉRALE : BLOC-NOTES & RACCOURCIS */}
         <div className="dashboard-right-col">
           {/* BLOC-NOTES MEMO RAPIDE */}
@@ -253,6 +278,7 @@ export default function Dashboard() {
               ))}
             </ul>
           </section>
+
           {/* RACCOURCIS PRO */}
           <section className="dash-card shortcuts-card">
             <div className="dash-card__header">
@@ -281,3 +307,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
