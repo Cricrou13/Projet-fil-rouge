@@ -19,7 +19,6 @@ export default function ProLogin() {
     setError('');
 
     try {
-      // Remplace par 'http://infintime.test/connexion.php' si le dossier s'appelle juste 'infintime'
       const response = await fetch('http://infintime.api.test/connexion.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -47,7 +46,7 @@ export default function ProLogin() {
   };
 
   return (
-    <div className="pro-login-page">
+    <main className="pro-login-page">
       <div className="pro-login-container">
         {/* Côté gauche : Illustration / Valeur pour les pros */}
         <div className="pro-info-side">
@@ -73,8 +72,9 @@ export default function ProLogin() {
 
             <form onSubmit={handleSubmit} className="pro-form">
               <div className="input-group">
-                <label>Email professionnel</label>
+                <label htmlFor="pro-email">Email professionnel</label>
                 <input
+                  id="pro-email"
                   type="email"
                   name="email"
                   placeholder="artisan@exemple.fr"
@@ -85,8 +85,9 @@ export default function ProLogin() {
               </div>
 
               <div className="input-group">
-                <label>Mot de passe</label>
+                <label htmlFor="pro-password">Mot de passe</label>
                 <input
+                  id="pro-password"
                   type="password"
                   name="password"
                   placeholder="••••••••"
@@ -108,6 +109,6 @@ export default function ProLogin() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

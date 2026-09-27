@@ -17,6 +17,7 @@ import ContactPro from "./pages/public/ContactPro";
 import Login from "./pages/public/Login";
 import MyAppointments from "./pages/public/MyAppointments";
 import Register from "./pages/public/Register";
+import ArtisanProfile from './components/pro/ArtisanProfile';
 
 import PrivacyPolicy from "./pages/public/PrivacyPolicy";
 import LegalNotice from "./pages/public/LegalNotice";
@@ -37,9 +38,11 @@ export default function App() {
             <Route path="/politique-donnees" element={<PrivacyPolicy/>} />
             <Route path="/mentions-legales" element={<LegalNotice />} />
             <Route path="/inscription" element={<Auth />} />
+            {/* Déplacé ici dans le layout public */}
+            <Route path="/artisan/:id" element={<ArtisanProfile />} />
           </Route>
 
-{/* Route de Connexion Pro (Hors du layout protégé pour éviter la boucle) */}
+          {/* Route de Connexion Pro */}
           <Route path="/pro/connexion" element={<ProLogin />} />
 
           {/* Partie Pro */}

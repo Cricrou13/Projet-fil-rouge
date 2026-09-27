@@ -1,12 +1,18 @@
+import React from "react";
 import { Star, MapPin, Calendar, CheckCircle2, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getMetierConfig } from "../../data/metiers";
 import "./ProCard.scss";
+
 export default function ProCard({ pro }) {
   const initials = pro.initials || (pro.name ? pro.name.split(" ").map((n) => n[0]).join("") : "PRO");
   
   // Récupération de la couleur du métier (Rose, Cyan, Ocre...)
   const config = getMetierConfig(pro.metier);
+
+  // Identification dynamique de l'ID (gère pro.id ou pro.Id_utilisateur)
+  const proId = pro.id || pro.Id_utilisateur || pro.id_utilisateur;
+
   return (
     <article 
       className="pro-card"
@@ -80,20 +86,22 @@ export default function ProCard({ pro }) {
           </span>
         </div>
       )}
-     
-       <div className="pro-card__actions">
+      
+      <div className="pro-card__actions">
         {pro.startingPrice === "Sur devis" ? (
           <Link to="/devis" className="btn-book">
             <FileText size={14} />
             <span>Demander un devis</span>
           </Link>
         ) : (
-          <Link to={`/reservation?pro=${pro.id}`} className="btn-book">
+          <Link to={`/reservation?pro=${proId}`} className="btn-book">
             <Calendar size={14} />
             <span>Prendre RDV</span>
           </Link>
         )}
-        <Link to="/recherche" className="btn-profile">
+        
+        {/* Remplacement de artisan.id par proId */}
+        <Link to={`/artisan/${proId}`} className="btn-profile">
           Profil
         </Link>
       </div>

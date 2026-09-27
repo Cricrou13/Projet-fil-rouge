@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './Auth.scss';
 
 export default function Auth() {
+  const { loginClient, loginPro } = useAuth();
+  const navigate = useNavigate();
+
   // État pour savoir quel onglet est actif : 'login' ou 'register'
   const [activeTab, setActiveTab] = useState('login');
 
@@ -34,7 +39,7 @@ export default function Auth() {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
   };
 
-  // Soumission de la connexion
+  // Soumission de la connexion (UNIQUE DECLARATION)
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -47,26 +52,30 @@ export default function Auth() {
         body: JSON.stringify(loginData),
       });
 
-      const data = await response.json();
+      const textData = await response.text();
+      let data;
+
+      try {
+        data = JSON.parse(textData);
+      } catch (parseError) {
+        setError("La réponse du serveur est invalide.");
+        return;
+      }
 
       if (data.success) {
         setMessage('Connexion réussie ! Redirection en cours...');
-        
-        // Stocker les infos de l'utilisateur connecté
-        localStorage.setItem('user', JSON.stringify(data.user));
 
-        // Redirection en fonction de son rôle (client ou artisan)
-        setTimeout(() => {
-          if (data.user.role === 'artisan') {
-            window.location.href = '/pro/tableau-de-bord';
-          } else {
-            window.location.href = '/';
-          }
-        }, 1000);
-
+        if (data.user.role === 'artisan') {
+          loginPro(data.user);
+          setTimeout(() => navigate('/pro/tableau-de-bord'), 1000);
+        } else {
+          loginClient(data.user);
+          setTimeout(() => navigate('/'), 1000);
+        }
       } else {
         setError(data.message || "Identifiants incorrects.");
       }
+
     } catch (err) {
       setError('Erreur de communication avec l’API.');
     }
@@ -79,7 +88,7 @@ export default function Auth() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost/infintime.api/register.php', {
+      const response = await fetch('http://localhost/infintime.api/inscription.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(registerData),
@@ -88,10 +97,13 @@ export default function Auth() {
       const data = await response.json();
 
       if (data.success) {
-        setMessage('Compte créé avec succès ! Vous pouvez vous connecter.');
-        setActiveTab('login'); // Bascule automatique vers l'onglet connexion
+        setMessage('Inscription réussie ! Vous pouvez vous connecter.');
+        setTimeout(() => {
+          setActiveTab('login');
+          setMessage('');
+        }, 1500);
       } else {
-        setError(data.message || "Erreur lors de l’inscription.");
+        setError(data.message || "Erreur lors de l'inscription.");
       }
     } catch (err) {
       setError('Erreur de communication avec l’API.');
@@ -99,17 +111,19 @@ export default function Auth() {
   };
 
   return (
-    <div className="auth-page">
+    <main className="auth-page">
       <div className="auth-card">
         {/* En-tête avec les onglets */}
         <div className="auth-tabs">
           <button
+            type="button"
             className={`tab-btn ${activeTab === 'login' ? 'active' : ''}`}
             onClick={() => { setActiveTab('login'); setMessage(''); setError(''); }}
           >
             Connexion
           </button>
           <button
+            type="button"
             className={`tab-btn ${activeTab === 'register' ? 'active' : ''}`}
             onClick={() => { setActiveTab('register'); setMessage(''); setError(''); }}
           >
@@ -118,7 +132,7 @@ export default function Auth() {
         </div>
 
         <div className="auth-content">
-          <h2>InfinTime - <span>{activeTab === 'login' ? 'Connexion' : 'Inscription'}</span></h2>
+          <h1>InfinTime - <span>{activeTab === 'login' ? 'Connexion' : 'Inscription'}</span></h1>
 
           {message && <div className="alert-message success">{message}</div>}
           {error && <div className="alert-message error">{error}</div>}
@@ -129,6 +143,7 @@ export default function Auth() {
               <input
                 type="email"
                 name="email"
+                aria-label="Adresse email"
                 placeholder="Adresse email"
                 value={loginData.email}
                 onChange={handleLoginChange}
@@ -137,6 +152,7 @@ export default function Auth() {
               <input
                 type="password"
                 name="password"
+                aria-label="Mot de passe"
                 placeholder="Mot de passe"
                 value={loginData.password}
                 onChange={handleLoginChange}
@@ -152,6 +168,7 @@ export default function Auth() {
               <input
                 type="text"
                 name="nom"
+                aria-label="Nom"
                 placeholder="Nom"
                 value={registerData.nom}
                 onChange={handleRegisterChange}
@@ -160,6 +177,7 @@ export default function Auth() {
               <input
                 type="text"
                 name="prenom"
+                aria-label="Prénom"
                 placeholder="Prénom"
                 value={registerData.prenom}
                 onChange={handleRegisterChange}
@@ -168,6 +186,7 @@ export default function Auth() {
               <input
                 type="email"
                 name="email"
+                aria-label="Email"
                 placeholder="Email"
                 value={registerData.email}
                 onChange={handleRegisterChange}
@@ -176,6 +195,7 @@ export default function Auth() {
               <input
                 type="password"
                 name="password"
+                aria-label="Mot de passe"
                 placeholder="Mot de passe"
                 value={registerData.password}
                 onChange={handleRegisterChange}
@@ -184,12 +204,14 @@ export default function Auth() {
               <input
                 type="tel"
                 name="telephone"
+                aria-label="Téléphone"
                 placeholder="Téléphone"
                 value={registerData.telephone}
                 onChange={handleRegisterChange}
               />
               <select
                 name="role"
+                aria-label="Rôle"
                 value={registerData.role}
                 onChange={handleRegisterChange}
               >
@@ -199,6 +221,7 @@ export default function Auth() {
               <input
                 type="text"
                 name="adresse_facturation"
+                aria-label="Adresse"
                 placeholder="Adresse"
                 value={registerData.adresse_facturation}
                 onChange={handleRegisterChange}
@@ -206,6 +229,7 @@ export default function Auth() {
               <input
                 type="text"
                 name="code_postal"
+                aria-label="Code postal"
                 placeholder="Code postal"
                 value={registerData.code_postal}
                 onChange={handleRegisterChange}
@@ -213,6 +237,7 @@ export default function Auth() {
               <input
                 type="text"
                 name="ville"
+                aria-label="Ville"
                 placeholder="Ville"
                 value={registerData.ville}
                 onChange={handleRegisterChange}
@@ -222,6 +247,6 @@ export default function Auth() {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

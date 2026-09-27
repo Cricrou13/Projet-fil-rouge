@@ -1,6 +1,6 @@
 export const mockPros = [
   {
-    id: 1,
+    id: 4,
     name: "M. Avaro",
     initials: "MA",
     metier: "Coiffure & Barbier",
@@ -52,7 +52,7 @@ export const mockPros = [
   },
 
 {
-    id: 4,
+    id: 2,
     name: "M. DELCLOS",
     initials: "CD",
     metier: "Développeur web",
@@ -104,4 +104,21 @@ export const mockPros = [
       { name: "Maçonnerie générale", duration: "Sur devis", price: "Sur devis" },
     ],
   },
+
+  {
+    id: 7,
+    name: "M. CUNG",
+    initials: "CC",
+    metier: "Terrassement",
+    ville: "Marseille",
+    codePostal: "13400",
+    badge: "🚜",
+    rating: 4.1,
+    reviewsCount: 11,
+    startingPrice: "Sur devis",
+    nextSlot: "Réponse sous 24h",
+    prestations: [
+      { name: "Terrassement fondations", duration: "Sur devis", price: "Sur devis" },
+    ],
+  }
 ];

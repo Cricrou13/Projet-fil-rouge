@@ -1,10 +1,12 @@
 import { Calendar, Clock, MapPin, User, Mail, Phone, ShieldCheck } from "lucide-react";
 import "./BookingSummary.scss";
+
 export default function BookingSummary({ service, date, heure, pro, clientInfo, setClientInfo }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setClientInfo((prev) => ({ ...prev, [name]: value }));
   };
+
   return (
     <div className="booking-summary-step">
       
@@ -34,44 +36,65 @@ export default function BookingSummary({ service, date, heure, pro, clientInfo, 
           <span className="total-amount">{service?.prix} € TTC</span>
         </div>
       </div>
+
       {/* COORDONNÉES CLIENT POUR RAPPEL */}
       <div className="client-fields-card">
         <h4>Vos coordonnées pour la confirmation</h4>
         <p className="fields-subtitle">Ces informations permettent à l'artisan de vous contacter si nécessaire.</p>
+        
         <div className="fields-grid">
+          
+          {/* Nom & Prénom */}
           <div className="field-group">
-            <label htmlFor="client-nom"><User size={15} /> Nom & Prénom</label>
+            <div className="label-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <User size={15} aria-hidden="true" />
+              <label htmlFor="client-nom">Nom & Prénom</label>
+            </div>
             <input 
               id="client-nom"
               type="text" 
               name="nom" 
-              value={clientInfo?.nom} 
+              aria-label="Nom & Prénom"
+              value={clientInfo?.nom || ''} 
               onChange={handleChange}
               required 
             />
           </div>
+
+          {/* Téléphone */}
           <div className="field-group">
-            <label htmlFor="client-tel"><Phone size={15} /> Téléphone (rappel SMS)</label>
+            <div className="label-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <Phone size={15} aria-hidden="true" />
+              <label htmlFor="client-tel">Téléphone</label>
+            </div>
             <input 
               id="client-tel"
               type="tel" 
               name="telephone" 
-              value={clientInfo?.telephone} 
+              aria-label="Téléphone (rappel SMS)"
+              value={clientInfo?.telephone || ''} 
               onChange={handleChange}
               required 
             />
           </div>
+
+          {/* E-mail */}
           <div className="field-group full">
-            <label htmlFor="client-email"><Mail size={15} /> Adresse e-mail</label>
+            <div className="label-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <Mail size={15} aria-hidden="true" />
+              <label htmlFor="client-email">Adresse e-mail</label>
+            </div>
             <input 
               id="client-email"
               type="email" 
               name="email" 
-              value={clientInfo?.email} 
+              aria-label="Adresse e-mail"
+              value={clientInfo?.email || ''} 
               onChange={handleChange}
               required 
             />
           </div>
+
         </div>
       </div>
     </div>

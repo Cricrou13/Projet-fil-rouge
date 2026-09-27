@@ -11,6 +11,11 @@ import { mockPros } from "../../data/mockPros";
 import "./Home.scss";
 
 export default function Home() {
+  // Sélectionne et trie les artisans par note décroissante, puis garde les 3 premiers
+  const topPros = [...mockPros]
+    .sort((a, b) => (b.note || 0) - (a.note || 0))
+    .slice(0, 3);
+
   return (
     <div className="home">
       {/* 1. Hero avec recherche multi-critères */}
@@ -38,7 +43,7 @@ export default function Home() {
           </div>
 
           <div className="home-pros-grid">
-            {mockPros.map((pro) => (
+            {topPros.map((pro) => (
               <ProCard key={pro.id} pro={pro} />
             ))}
           </div>

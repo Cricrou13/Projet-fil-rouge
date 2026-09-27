@@ -2,7 +2,10 @@
   width: 100%;
   background-color: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-  position: relative;
+  
+  /* MODIFICATIONS ICI */
+  position: sticky;
+  top: 0;
   z-index: 1000;
 
   &__container {
@@ -12,7 +15,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative; 
+    /* position: relative;  <-- Retiré */
   }
 
   &__logo {
@@ -121,7 +124,6 @@
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
       z-index: 9999; 
 
-      // FORCER l'affichage lors de l'ouverture
       &.is-open {
         display: flex !important;
       }

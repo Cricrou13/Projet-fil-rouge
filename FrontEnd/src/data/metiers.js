@@ -1,8 +1,8 @@
 export const METIERS = {
-  coiffure: { label: 'Coiffure', color: '#DB2777', bgLight: '#FCE7F3' },      // Rose vibrant
-  electricite: { label: 'Électricité', color: '#EA580C', bgLight: '#FFEDD5' }, // Orange énergie
-  terrassement: { label: 'Terrassement', color: '#D97706', bgLight: '#FEF3C7' }, // Ambre / Ocre chantier
-  plomberie: { label: 'Plomberie', color: '#0284C7', bgLight: '#E0F2FE' },     // Bleu ciel / Cyan
+  coiffure: { label: 'Coiffure', color: '#991A53', bgLight: '#FCE7F3' },      // Rose vibrant
+  electricite: { label: 'Électricité', color: '#7F3006', bgLight: '#FFEDD5' }, // Orange énergie
+  terrassement: { label: 'Terrassement', color: '#683903', bgLight: '#FEF3C7' }, // Ambre / Ocre chantier
+  plomberie: { label: 'Plomberie', color: '#024A6F', bgLight: '#E0F2FE' },     // Bleu ciel / Cyan
   peinture: { label: 'Peinture', color: '#7C3AED', bgLight: '#F3E8FF' },       // Violet
   "espaces-verts": { label: 'Jardinage', color: '#16A34A', bgLight: '#DCFCE7' },     // Vert nature
   nettoyage: { label: 'Nettoyage', color: '#0D9488', bgLight: '#CCFBF1' },     // Sarcelle / Teal

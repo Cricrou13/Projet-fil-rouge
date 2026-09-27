@@ -38,12 +38,10 @@ export default function Footer() {
 
           {/* Colonne 2 : Pour les clients */}
           <div className="footer__col">
-            <h1>Pour les clients</h1>
+            <h2>Pour les clients</h2>
             <ul>
               <li><Link to="/recherche">Rechercher un entrepreneur</Link></li>
-              <li><Link to="/recherche">Prendre rendez-vous en ligne</Link></li>
               <li><Link to="/contact">Demander un devis travaux</Link></li>
-              <li><Link to="/recherche">Avis clients certifiés</Link></li>
             </ul>
           </div>
 
@@ -52,8 +50,6 @@ export default function Footer() {
             <h2>Pour les professionnels</h2>
             <ul>
               <li><Link to="/pro/tableau-de-bord" className="highlight-link">Accéder à l'Espace Pro</Link></li>
-              <li><Link to="/pro/tableau-de-bord">Gestion de l'agenda en ligne</Link></li>
-              <li><Link to="/pro/tableau-de-bord">Devis & Fichier clientèle</Link></li>
               <li><Link to="/contact">Assistance partenaires</Link></li>
             </ul>
           </div>
@@ -76,18 +72,14 @@ export default function Footer() {
         <div className="footer__bottom">
           <p>&copy; {new Date().getFullYear()} InfinTime. Tous droits réservés. Projet Fil Rouge - Développeur Web.</p>
           <div className="footer__bottom-links">
-            <Link to="/mentions-legales">Sécurité</Link>
-            <span>·</span>
-            <Link to="/politique-donnees">Confidentialité</Link>
-            <span>·</span>
             <button 
               type="button" 
               className="footer-cookie-btn" 
               onClick={() => window.dispatchEvent(new Event("open_cookie_banner"))}
             >
-              Cookies
+              Gestion des cookies
             </button>
-      </div>
+          </div>
         </div>
       </div>
     </footer>

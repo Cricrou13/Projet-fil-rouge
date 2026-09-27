@@ -1,5 +1,5 @@
-import { Navigate, useSearchParams, useNavigate, Link } from "react-router-dom";
-import { useState, useMemo } from "react";
+import { Navigate, useSearchParams, useNavigate, useLocation, Link } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
 import { 
   Calendar, 
   ArrowLeft, 
@@ -21,15 +21,20 @@ import { getMetierConfig } from "../../data/metiers";
 import "./Booking.scss";
 
 export default function Booking() {
-  const { isClientConnected } = useAuth();
+  const { isClientConnected, clientUser } = useAuth();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const navigate = useNavigate();
 
-  // 1. Récupération de l'artisan choisi via l'URL (?pro=1) ou artisan par défaut
+  // 1. Récupération de l'artisan (priorité à l'état passe via navigate, puis query param ?pro=X)
+  const proFromState = location.state?.pro;
   const proId = Number(searchParams.get("pro")) || 1;
+
   const currentPro = useMemo(() => {
+    if (proFromState) return proFromState;
     return mockPros.find((p) => p.id === proId) || mockPros[0];
-  }, [proId]);
+  }, [proFromState, proId]);
+
   const metierConfig = getMetierConfig(currentPro.metier);
 
   // 2. Services adaptés à l'artisan
@@ -38,7 +43,7 @@ export default function Booking() {
       return currentPro.prestations.map((p, idx) => ({
         id: idx + 1,
         nom: p.name,
-        duree: p.duration,
+        duree: p.duration || "30 min",
         prix: parseInt(p.price) || 30
       }));
     }
@@ -50,11 +55,25 @@ export default function Booking() {
   const [service, setService] = useState(null);
   const [date, setDate] = useState("");
   const [heure, setHeure] = useState("");
+  
+  // Remplissage automatique avec les données réelles du client connecté
   const [clientInfo, setClientInfo] = useState({
-    nom: "Christophe R.",
-    email: "client@exemple.fr",
-    telephone: "06 12 34 56 78"
+    nom: clientUser ? `${clientUser.prenom || ''} ${clientUser.nom || ''}`.trim() : "",
+    email: clientUser?.email || "",
+    telephone: clientUser?.telephone || ""
   });
+
+  // Mise à jour de clientInfo si le composant monte avant la récupération de clientUser
+  useEffect(() => {
+    if (clientUser) {
+      setClientInfo({
+        nom: `${clientUser.prenom || ''} ${clientUser.nom || ''}`.trim() || clientUser.name || "",
+        email: clientUser.email || "",
+        telephone: clientUser.telephone || ""
+      });
+    }
+  }, [clientUser]);
+
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   // Validation par étape
@@ -66,7 +85,7 @@ export default function Booking() {
     setIsConfirmed(true);
   };
 
-  // ⚠️ Le test de connexion arrive APRÈS tous les Hooks, jamais avant
+  // Redirection vers la connexion si le client n'est pas identifié
   if (!isClientConnected) {
     return <Navigate to="/connexion" replace />;
   }
@@ -104,6 +123,7 @@ export default function Booking() {
             </div>
           </div>
         </div>
+
         {/* ÉCRAN DE SUCCÈS APRÈS CONFIRMATION */}
         {isConfirmed ? (
           <div className="booking-success-card">
@@ -152,6 +172,7 @@ export default function Booking() {
           <div className="booking-card">
             
             <BookingStepper currentStep={step} />
+
             {/* ÉTAPE 1 : CHOIX DU SERVICE */}
             {step === 1 && (
               <div className="step-content">
@@ -163,6 +184,7 @@ export default function Booking() {
                 />
               </div>
             )}
+
             {/* ÉTAPE 2 : DATE & HEURE */}
             {step === 2 && (
               <div className="step-content">
@@ -175,6 +197,7 @@ export default function Booking() {
                 />
               </div>
             )}
+
             {/* ÉTAPE 3 : RÉCAPITULATIF */}
             {step === 3 && (
               <div className="step-content">
@@ -189,6 +212,7 @@ export default function Booking() {
                 />
               </div>
             )}
+
             {/* BOUTONS DE NAVIGATION DU TUNNEL */}
             <div className="booking-actions">
               {step > 1 ? (
@@ -226,6 +250,7 @@ export default function Booking() {
             </div>
           </div>
         )}
+
         {/* RÉASSURANCE */}
         <div className="booking-trust">
           <div className="trust-item">

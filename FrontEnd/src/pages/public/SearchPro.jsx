@@ -57,11 +57,9 @@ export default function SearchPro() {
     setSearchParams({});
   };
 
-  // Filtrage robuste insensible aux accents / majuscules
   const filteredPros = useMemo(() => {
     return mockPros
       .filter((pro) => {
-        // Filtrage métier / nom
         if (metierParam) {
           const query = normalizeText(metierParam);
           const matchMetier = normalizeText(pro.metier).includes(query);
@@ -69,7 +67,6 @@ export default function SearchPro() {
           if (!matchMetier && !matchName) return false;
         }
 
-        // Filtrage ville
         if (villeParam) {
           const cityQuery = normalizeText(villeParam);
           const matchCity =
@@ -78,7 +75,6 @@ export default function SearchPro() {
           if (!matchCity) return false;
         }
 
-        // Autres filtres
         if (minRating > 0 && pro.rating < minRating) return false;
         if (typeFilter === "quote" && pro.startingPrice !== "Sur devis") return false;
         if (typeFilter === "fixed" && pro.startingPrice === "Sur devis") return false;
@@ -117,6 +113,7 @@ export default function SearchPro() {
               <Search className="field-icon" size={18} />
               <input
                 type="text"
+                aria-label="Quel métier ou artisan ?"
                 placeholder="Quel métier ou artisan ?"
                 value={metierInput}
                 onChange={(e) => setMetierInput(e.target.value)}
@@ -127,6 +124,7 @@ export default function SearchPro() {
               <MapPin className="field-icon" size={18} />
               <input
                 type="text"
+                aria-label="Où ? (ex: Toulouse, Blagnac)"
                 placeholder="Où ? (ex: Toulouse, Blagnac)"
                 value={villeInput}
                 onChange={(e) => setVilleInput(e.target.value)}
@@ -137,7 +135,7 @@ export default function SearchPro() {
             </button>
           </form>
 
-          {/* Tags d'accès direct corrigés */}
+          {/* Tags d'accès direct */}
           <div className="search-quick-tags">
             <span className="tags-title">Accès direct :</span>
             <button
@@ -182,7 +180,7 @@ export default function SearchPro() {
             >
               🪛 Électricité
             </button>
-             <button
+            <button
               type="button"
               className={`tag-btn ${normalizeText(metierParam) === "maçonnerie générale" ? "active" : ""}`}
               onClick={() => handleQuickTag("maçonnerie générale")}
@@ -192,7 +190,7 @@ export default function SearchPro() {
           </div>
         </div>
 
-        {/* RESTE DU COMPOSANT SANS CHANGEMENT */}
+        {/* LAYOUT PRINCIPAL */}
         <div className="search-layout">
           <aside className="search-filters-sidebar">
             <div className="filters-header">
@@ -208,8 +206,9 @@ export default function SearchPro() {
               )}
             </div>
 
-            <div className="filter-group">
-              <label>Disponibilité</label>
+            {/* GRoupe 1 : Disponibilité */}
+            <fieldset className="filter-group">
+              <legend>Disponibilité</legend>
               <div className="filter-options">
                 <label className="radio-option">
                   <input
@@ -239,10 +238,11 @@ export default function SearchPro() {
                   <span>Demain</span>
                 </label>
               </div>
-            </div>
+            </fieldset>
 
-            <div className="filter-group">
-              <label>Avis clients</label>
+            {/* Groupe 2 : Avis clients */}
+            <fieldset className="filter-group">
+              <legend>Avis clients</legend>
               <div className="filter-options">
                 <label className="radio-option">
                   <input
@@ -263,10 +263,11 @@ export default function SearchPro() {
                   <span>★ 4.8 et plus</span>
                 </label>
               </div>
-            </div>
+            </fieldset>
 
-            <div className="filter-group">
-              <label>Type d'intervention</label>
+            {/* Groupe 3 : Type d'intervention */}
+            <fieldset className="filter-group">
+              <legend>Type d'intervention</legend>
               <div className="filter-options">
                 <label className="radio-option">
                   <input
@@ -296,10 +297,11 @@ export default function SearchPro() {
                   <span>Sur devis</span>
                 </label>
               </div>
-            </div>
+            </fieldset>
           </aside>
 
           <main className="search-results-area">
+            <h1 className="sr-only">Rechercher un professionnel ou un artisan</h1> {/* // Titre masqué à titre indicatif pour le lecteur// */}
             <div className="results-header">
               <h2 className="results-count">
                 <strong>{filteredPros.length}</strong> professionnel{filteredPros.length > 1 ? "s" : ""} disponible{filteredPros.length > 1 ? "s" : ""}
